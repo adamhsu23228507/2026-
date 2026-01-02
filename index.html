@@ -156,6 +156,26 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .road-dot{width:8px;height:8px;border-radius:50%}
 .road-dot.open{background:#4caf50}.road-dot.caution{background:#ff9800}.road-dot.closed{background:#f44336}.road-dot.unknown{background:#9e9e9e}
 .road-link{color:var(--blue);font-size:11px;text-decoration:none}
+.food-tabs{display:flex;gap:8px;margin-bottom:16px}
+.food-tab{flex:1;padding:10px;background:#fff;border:2px solid #e0e0e0;border-radius:12px;font-size:14px;text-align:center;cursor:pointer}
+.food-tab.active{background:var(--orange);border-color:var(--orange);color:#fff}
+.food-tab.shop.active{background:var(--purple);border-color:var(--purple)}
+.food-card{background:#fff;border-radius:16px;margin-bottom:14px;box-shadow:0 2px 12px rgba(0,0,0,.08);overflow:hidden}
+.food-header{display:flex;align-items:center;gap:12px;padding:14px 16px;background:linear-gradient(135deg,#ff8a65,#ff5722)}
+.food-header.shop{background:linear-gradient(135deg,#b39ddb,#7c4dff)}
+.food-icon{font-size:32px;background:rgba(255,255,255,.2);width:50px;height:50px;border-radius:12px;display:flex;align-items:center;justify-content:center}
+.food-title{flex:1;color:#fff}
+.food-name{font-size:17px;font-weight:700}
+.food-jp{font-size:12px;opacity:.85}
+.food-day{background:rgba(255,255,255,.25);padding:4px 10px;border-radius:20px;font-size:11px;color:#fff}
+.food-body{padding:16px}
+.food-desc{font-size:14px;color:#455a64;line-height:1.7;margin-bottom:12px}
+.food-info{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:12px;background:#fafafa;border-radius:10px;margin-bottom:12px}
+.food-info-item{font-size:13px}
+.food-info-label{color:var(--light);font-size:11px}
+.food-info-value{font-weight:500;margin-top:2px}
+.food-tips{background:#fff3e0;padding:10px 12px;border-radius:10px;font-size:13px;color:#e65100;margin-bottom:12px}
+.food-nav-btn{display:flex;align-items:center;justify-content:center;gap:6px;width:100%;padding:12px;background:linear-gradient(135deg,var(--green),#00e676);color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;text-decoration:none}
 .modal{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.5);z-index:200;justify-content:center;align-items:flex-end}
 .modal.active{display:flex}
 .modal-content{background:#fff;width:100%;max-width:500px;border-radius:24px 24px 0 0;padding:24px;padding-bottom:40px;max-height:90vh;overflow-y:auto}
@@ -183,19 +203,19 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
     <div class="page active" id="page-itinerary"><div id="weather-box"></div><div class="day-selector" id="day-selector"></div><div id="day-content"></div><div class="backup-box"><div class="backup-title">⚠️ 備案計畫</div><div class="backup-text">若第1天班機問題，可取消富良野住宿，第2天從機場直接到旭川。</div></div></div>
     <div class="page" id="page-hotels"></div>
     <div class="page" id="page-spots"></div>
+    <div class="page" id="page-food"></div>
     <div class="page" id="page-transport"></div>
     <div class="page" id="page-phrases"><div class="phrase-tabs" id="phrase-tabs"></div><div id="phrases-list"></div></div>
     <div class="page" id="page-budget"><div id="setup-section"></div><div class="budget-grid" id="budget-grid"></div><div class="expense-header"><div class="expense-title">📝 消費記錄</div><button class="expense-add-btn" onclick="openModal()">＋ 新增</button></div><div class="expense-status" id="conn-status"><span>⏳</span> 未連線</div><div class="expense-cats" id="expense-cats"></div><div class="expense-list" id="expense-list"><div class="expense-empty">請先設定 Google Sheets</div></div></div>
-    <div class="page" id="page-info"></div>
   </div>
   <nav class="nav">
     <a class="nav-item active" data-page="itinerary"><span>📅</span><small>行程</small></a>
     <a class="nav-item" data-page="hotels"><span>🏨</span><small>住宿</small></a>
     <a class="nav-item" data-page="spots"><span>📍</span><small>景點</small></a>
+    <a class="nav-item" data-page="food"><span>🍽️</span><small>美食</small></a>
     <a class="nav-item" data-page="transport"><span>🚗</span><small>交通</small></a>
     <a class="nav-item" data-page="phrases"><span>💬</span><small>會話</small></a>
     <a class="nav-item" data-page="budget"><span>💰</span><small>記帳</small></a>
-    <a class="nav-item" data-page="info"><span>ℹ️</span><small>資訊</small></a>
   </nav>
 </div>
 <div class="modal" id="booking-modal">
@@ -256,14 +276,38 @@ const spots=[
 ];
 
 const itinerary=[
-  {day:1,date:'1/28(三)',title:'抵達・富良野',km:'123km',items:[{time:'06:20',title:'✈️ 台北出發',desc:'虎航IT234'},{time:'10:55',title:'🛬 抵達新千歲'},{time:'11:30',title:'🍜 機場午餐',type:'meal'},{time:'12:30',title:'🚗 取車出發',desc:'北海道女婿'},{time:'15:40',title:'🧚 精靈露台',nav:'ニングルテラス'},{time:'17:30',title:'🏨 富良野拉漁村',type:'hotel'}]},
-  {day:2,date:'1/29(四)',title:'美瑛・旭山',km:'50km',items:[{time:'07:40',title:'🍳 飯店早餐',type:'meal'},{time:'09:30',title:'🌲 美瑛名樹',nav:'美瑛クリスマスツリー'},{time:'11:00',title:'🐧 旭山動物園',nav:'旭山動物園'},{time:'16:00',title:'🍖 成吉思汗',type:'meal'},{time:'晚上',title:'🛍️ DCM買鞋釘'},{time:'住宿',title:'🏨 旭川客樂森',type:'hotel'}]},
-  {day:3,date:'1/30(五)',title:'層雲峽',km:'65km',items:[{time:'07:40',title:'🍳 飯店早餐',type:'meal'},{time:'09:00',title:'🚗 出發層雲峽'},{time:'14:00',title:'🏨 層雲峽朝陽亭',type:'hotel'},{time:'17:00',title:'🧊 冰瀑祭',nav:'層雲峡氷瀑まつり'},{time:'20:00',title:'🎆 煙火表演'}]},
-  {day:4,date:'1/31(六)',title:'北狐・阿寒湖',km:'156km',items:[{time:'07:40',title:'🍳 飯店早餐',type:'meal'},{time:'09:00',title:'🚗 出發北狐牧場'},{time:'10:40',title:'🦊 北狐牧場',nav:'北きつね牧場'},{time:'14:30',title:'🏨 新阿寒飯店',type:'hotel'},{time:'下午',title:'🎣 冰釣或愛努村落',nav:'阿寒湖アイヌコタン'}]},
-  {day:5,date:'2/1(日)',title:'帶廣・十勝川',km:'120km',items:[{time:'07:40',title:'🍳 飯店早餐',type:'meal'},{time:'09:00',title:'🚗 出發帶廣'},{time:'12:00',title:'🐷 帶廣豬肉蓋飯',type:'meal',nav:'帯広豚丼'},{time:'14:00',title:'🍰 六花亭/柳月',nav:'六花亭帯広本店'},{time:'16:00',title:'🏨 十勝川Tetra',type:'hotel'},{time:'18:00',title:'🍜 麵處田樂拉麵',type:'meal',nav:'麺処田楽十勝川温泉'},{time:'19:00',title:'✨ 彩凛華燈祭',nav:'彩凛華十勝川温泉'}]},
-  {day:6,date:'2/2(一)',title:'前往札幌',km:'205km',items:[{time:'07:20',title:'🍳 飯店早餐',type:'meal'},{time:'08:40',title:'🚗 出發札幌'},{time:'15:00',title:'🏨 札幌Vessel',type:'hotel'},{time:'下午',title:'❄️ 雪祭',nav:'大通公園'},{time:'18:00',title:'🦀 螃蟹大餐',type:'meal'}]},
-  {day:7,date:'2/3(二)',title:'札幌・千歲',km:'54km',items:[{time:'09:30',title:'🛍️ 札幌購物'},{time:'16:00',title:'⛽ 加油'},{time:'17:30',title:'🏨 千歲悠遊館',type:'hotel'}]},
-  {day:8,date:'2/4(三)',title:'返回台灣',km:'7km',items:[{time:'07:40',title:'🧳 退房還車'},{time:'08:40',title:'🍜 機場早餐',type:'meal'},{time:'11:55',title:'✈️ 起飛返台'},{time:'15:35',title:'🛬 抵達桃園'}]}
+  {day:1,date:'1/28(三)',title:'抵達・富良野',km:'123km',items:[{time:'06:20',title:'✈️ 台北出發',desc:'虎航IT234'},{time:'10:55',title:'🛬 抵達新千歲'},{time:'11:30',title:'🍜 機場午餐',desc:'機場或路上買',type:'meal'},{time:'12:30',title:'🚗 取車出發',desc:'J-Style租車'},{time:'15:40',title:'🧚 精靈露台',nav:'ニングルテラス'},{time:'17:30',title:'🏨 富良野拉漁村',type:'hotel'},{time:'18:30',title:'🍽️ 飯店晚餐',type:'meal'}]},
+  {day:2,date:'1/29(四)',title:'美瑛・旭山',km:'50km',items:[{time:'07:40',title:'🍳 飯店早餐',type:'meal'},{time:'09:00',title:'🚗 出發美瑛'},{time:'09:30',title:'🌲 美瑛名樹',nav:'美瑛クリスマスツリー'},{time:'11:00',title:'🐧 旭山動物園',nav:'旭山動物園'},{time:'12:30',title:'🍜 動物園午餐',desc:'園內食堂',type:'meal'},{time:'16:00',title:'🏨 旭川客樂森',type:'hotel'},{time:'17:00',title:'🐑 大黑屋成吉思汗',desc:'晚餐',type:'meal',nav:'成吉思汗大黒屋旭川'},{time:'晚上',title:'🛍️ DCM買鞋釘/逛街',nav:'DCMホーマック旭川'}]},
+  {day:3,date:'1/30(五)',title:'層雲峽',km:'65km',items:[{time:'07:40',title:'🍳 飯店早餐',type:'meal'},{time:'09:00',title:'🚗 出發或逛街'},{time:'14:00',title:'🏨 層雲峽朝陽亭',type:'hotel'},{time:'12:30',title:'🍜 層雲峽午餐',desc:'飯店或附近',type:'meal'},{time:'17:00',title:'🧊 冰瀑祭',desc:'門票¥1,000(13y以上)',nav:'層雲峡氷瀑まつり'},{time:'18:00',title:'🍽️ 飯店晚餐',type:'meal'},{time:'20:00',title:'🎆 煙火表演'}]},
+  {day:4,date:'1/31(六)',title:'北狐・阿寒湖',km:'156km',items:[{time:'07:40',title:'🍳 飯店早餐',type:'meal'},{time:'09:00',title:'🚗 出發北狐牧場'},{time:'10:40',title:'🦊 北狐牧場',desc:'門票¥500',nav:'北きつね牧場'},{time:'12:30',title:'🍜 阿寒湖午餐',desc:'北見市或阿寒湖',type:'meal'},{time:'14:30',title:'🏨 新阿寒飯店',type:'hotel'},{time:'下午',title:'🎣 冰釣或愛努村落',nav:'阿寒湖アイヌコタン'},{time:'18:00',title:'🍽️ 飯店晚餐',type:'meal'}]},
+  {day:5,date:'2/1(日)',title:'帶廣・十勝川',km:'120km',items:[{time:'07:40',title:'🍳 飯店早餐',type:'meal'},{time:'09:00',title:'🚗 出發帶廣'},{time:'12:00',title:'🐷 帶廣豬肉蓋飯',desc:'午餐',type:'meal',nav:'ぱんちょう帯広'},{time:'14:00',title:'🍰 六花亭/柳月',nav:'六花亭帯広本店'},{time:'16:00',title:'🏨 十勝川Tetra',type:'hotel'},{time:'18:00',title:'🍜 麵處田樂',desc:'晚餐',type:'meal',nav:'麺処田楽十勝川'},{time:'19:00',title:'✨ 彩凛華燈祭',nav:'彩凛華十勝川温泉'}]},
+  {day:6,date:'2/2(一)',title:'前往札幌',km:'205km',items:[{time:'07:20',title:'🍳 飯店早餐',type:'meal'},{time:'08:40',title:'🚗 出發札幌',desc:'占冠休息站、夕張'},{time:'12:30',title:'🍜 休息站或札幌午餐',type:'meal'},{time:'15:00',title:'🏨 札幌Vessel',type:'hotel'},{time:'下午',title:'❄️ 雪祭/逛街',nav:'大通公園'},{time:'18:00',title:'🦀 薄野螃蟹吃到飽',desc:'晚餐',type:'meal',nav:'氷雪の門札幌'}]},
+  {day:7,date:'2/3(二)',title:'札幌・千歲',km:'54km',items:[{time:'07:40',title:'🍳 飯店早餐',type:'meal'},{time:'09:30',title:'🛍️ 札幌逛街購物',desc:'狸小路、大通地下街'},{time:'12:30',title:'🍜 札幌午餐',desc:'湯咖哩或拉麵',type:'meal'},{time:'15:30',title:'🚗 出發千歲'},{time:'16:00',title:'⛽ 加油'},{time:'17:00',title:'🏨 千歲悠遊館',type:'hotel'},{time:'18:00',title:'🍽️ 千歲晚餐',desc:'AEON或附近',type:'meal',nav:'イオン千歳'}]},
+  {day:8,date:'2/4(三)',title:'返回台灣',km:'7km',items:[{time:'07:40',title:'🧳 退房還車',desc:'租車公司送機場'},{time:'08:40',title:'🍜 機場早餐',desc:'一幻拉麵、松尾成吉思汗',type:'meal',nav:'新千歳空港'},{time:'11:55',title:'✈️ 起飛返台',desc:'虎航IT235'},{time:'15:35',title:'🛬 抵達桃園'}]}
+];
+
+const foodShops=[
+  {id:'airport-lunch',cat:'food',day:1,region:'新千歲',name:'新千歲機場午餐',jp:'新千歳空港',icon:'✈️',desc:'抵達後先在機場吃午餐！3F美食街選擇豐富：拉麵、海鮮丼、成吉思汗都有。或在路上便利商店買飯糰、便當。',hours:'各店約10:00起',budget:'¥800-1,500',tips:'時間有限可選快速的拉麵或便當',nav:'新千歳空港',address:'北海道千歳市美々'},
+  {id:'laterre-dinner',cat:'food',day:1,region:'富良野',name:'富良野飯店晚餐',jp:'ふらのラテール',icon:'🍽️',desc:'拉漁村酒店包含晚餐！使用富良野在地新鮮蔬菜和食材的料理，可享受北海道的山珍美味。',hours:'18:00-20:00',budget:'含在房價內',tips:'飯店晚餐，不用另外找餐廳',nav:'ふらのラテール',address:'北海道空知郡中富良野町'},
+  {id:'asahiyama-lunch',cat:'food',day:2,region:'旭川',name:'旭山動物園午餐',jp:'旭山動物園食堂',icon:'🐧',desc:'動物園內有多間食堂和餐廳。推薦「動物園中央食堂」的醬油拉麵和咖哩飯，價格親民又方便。',hours:'10:30-15:00',budget:'¥700-1,000',tips:'中午人多，建議11:30前或13:30後用餐',nav:'旭山動物園',address:'北海道旭川市東旭川町倉沼'},
+  {id:'daikoku',cat:'food',day:2,region:'旭川',name:'大黑屋成吉思汗',jp:'大黒屋',icon:'🐑',desc:'旭川超人氣成吉思汗烤肉！使用新鮮羊肉，肉質軟嫩無羶味。自助式烤肉，沾特製醬汁超美味。建議點生羊肉（生ラム）和肩里肌（ラムロース）。',hours:'17:00-23:00',budget:'¥2,000-3,000/人',tips:'非常熱門，建議17:00開店就去排隊！',nav:'成吉思汗大黒屋旭川',address:'北海道旭川市4条通5丁目'},
+  {id:'santouka',cat:'food',day:2,region:'旭川',name:'山頭火拉麵本店',jp:'山頭火',icon:'🍜',desc:'旭川三大拉麵之一！招牌是鹽味拉麵（しおらーめん），湯頭濃郁但不膩口，叉燒入口即化。大黑屋備案選項。',hours:'11:00-21:00',budget:'¥900-1,200',tips:'本店限定的特製叉燒值得一試',nav:'らーめん山頭火旭川本店',address:'北海道旭川市1条通8丁目'},
+  {id:'sounkyo-lunch',cat:'food',day:3,region:'層雲峽',name:'層雲峽午餐',jp:'層雲峡',icon:'🍜',desc:'層雲峽溫泉區餐廳選擇不多。可在飯店內用餐，朝陽亭B1有拉麵店。或提早到飯店享用設施。',hours:'11:00-14:00',budget:'¥800-1,200',tips:'附近沒有便利商店，建議在飯店解決',nav:'層雲峡朝陽亭',address:'北海道上川郡上川町層雲峡温泉'},
+  {id:'sounkyo-dinner',cat:'food',day:3,region:'層雲峽',name:'層雲峽飯店晚餐',jp:'層雲峡朝陽亭',icon:'🍽️',desc:'朝陽亭包含豐盛的自助晚餐！北海道海鮮、燒烤、壽司、甜點應有盡有。可邊享用美食邊欣賞山景。',hours:'18:00-21:00',budget:'含在房價內',tips:'先去冰瀑祭再回來吃晚餐也可以',nav:'層雲峡朝陽亭',address:'北海道上川郡上川町層雲峡温泉'},
+  {id:'akan-lunch',cat:'food',day:4,region:'阿寒湖',name:'阿寒湖午餐',jp:'阿寒湖',icon:'🍜',desc:'可在北見市區或到阿寒湖後用餐。阿寒湖溫泉街有多間餐廳，推薦嚐嚐「愛努料理」或鹿肉料理。',hours:'11:00-14:00',budget:'¥1,000-1,500',tips:'愛努村落Kotan內也有餐廳',nav:'阿寒湖温泉',address:'北海道釧路市阿寒町'},
+  {id:'akan-dinner',cat:'food',day:4,region:'阿寒湖',name:'新阿寒飯店晚餐',jp:'ニュー阿寒ホテル',icon:'🍽️',desc:'新阿寒飯店的自助晚餐非常豐盛！現烤牛排、海鮮、壽司、天婦羅，還有北海道甜點。可眺望阿寒湖景。',hours:'18:00-21:00',budget:'含在房價內',tips:'推薦坐窗邊位置看湖景',nav:'ニュー阿寒ホテル',address:'北海道釧路市阿寒町阿寒湖温泉'},
+  {id:'butadon',cat:'food',day:5,region:'帶廣',name:'帶廣豬肉蓋飯',jp:'豚丼',icon:'🐷',desc:'帶廣名物！炭火燒烤的厚切豬肉，淋上甜鹹醬汁，配白飯超下飯。推薦名店：ぱんちょう、とん田、いっぴん。',hours:'11:00-19:00',budget:'¥1,000-1,500',tips:'ぱんちょう是元祖店，排隊人潮多',nav:'ぱんちょう帯広',address:'北海道帯広市西1条南11丁目'},
+  {id:'denraku',cat:'food',day:5,region:'十勝川',name:'麵處田樂',jp:'麺処田楽',icon:'🍜',desc:'十勝川溫泉區的人氣拉麵店！使用道產小麥製麵，湯頭選用十勝在地食材。推薦味噌拉麵和辣味噌拉麵。',hours:'11:00-15:00, 17:00-20:00',budget:'¥850-1,100',tips:'晚餐時段建議先預約或早點去',nav:'麺処田楽十勝川',address:'北海道河東郡音更町十勝川温泉'},
+  {id:'sapporo-lunch',cat:'food',day:6,region:'札幌',name:'札幌午餐',jp:'札幌ランチ',icon:'🍜',desc:'開車途中可在夕張道之駅休息用餐，或到札幌後再吃。札幌選擇超多：拉麵、湯咖哩、海鮮丼。',hours:'11:00-14:00',budget:'¥1,000-1,500',tips:'如果想早點到飯店，可在休息站解決',nav:'道の駅夕張メロード',address:'北海道夕張市'},
+  {id:'kani',cat:'food',day:6,region:'札幌',name:'薄野螃蟹吃到飽',jp:'かに食べ放題',icon:'🦀',desc:'北海道必吃！推薦店家：冰雪之門（氷雪の門）、難陀（なんだ）螃蟹吃到飽。可選帝王蟹、松葉蟹、毛蟹。',hours:'17:00-22:00',budget:'¥5,000-10,000',tips:'建議事先預約，薄野區店家較多',nav:'氷雪の門札幌',address:'北海道札幌市中央区南5条西2丁目'},
+  {id:'soupcurry',cat:'food',day:7,region:'札幌',name:'湯咖哩',jp:'スープカレー',icon:'🍛',desc:'札幌發源的特色料理！濃郁香料湯底配大塊蔬菜和雞腿。推薦店家：Suage+、GARAKU、奧芝商店。Day7午餐好選擇！',hours:'11:30-21:00',budget:'¥1,200-1,800',tips:'辣度可選，建議從中辣開始',nav:'スープカレーGARAKU札幌',address:'北海道札幌市中央区'},
+  {id:'chitose-dinner',cat:'food',day:7,region:'千歲',name:'千歲晚餐',jp:'千歳ディナー',icon:'🍽️',desc:'悠遊館附近有AEON Mall，美食街選擇多。也可以去迴轉壽司、拉麵店。最後一晚輕鬆吃！',hours:'17:00-21:00',budget:'¥1,000-2,000',tips:'AEON步行5分鐘，很方便',nav:'イオン千歳',address:'北海道千歳市栄町'},
+  {id:'airport',cat:'food',day:8,region:'新千歲',name:'新千歲機場早餐',jp:'新千歳空港グルメ',icon:'✈️',desc:'最後的北海道美食！推薦：一幻拉麵（蝦味超濃）、松尾成吉思汗、花畑牧場甜點、Royce巧克力。',hours:'各店約8:00起',budget:'¥1,000-2,000',tips:'國內線3F美食最多，建議預留1.5小時',nav:'新千歳空港',address:'北海道千歳市美々'},
+  {id:'dcm',cat:'shop',day:2,region:'旭川',name:'DCM (買鞋釘)',jp:'DCMホーマック',icon:'🔧',desc:'北海道連鎖五金百貨！冬季必買：鞋底防滑釘（約¥500-1,000）、暖暖包、除雪用品。鞋釘裝在鞋底，走冰雪路面超安全！',hours:'9:00-21:00',budget:'¥500-2,000',tips:'鞋釘在「靴用品」區，店員會幫忙安裝',nav:'DCMホーマック旭川大雪通店',address:'北海道旭川市大雪通5丁目'},
+  {id:'aeon',cat:'shop',day:2,region:'旭川',name:'AEON購物中心',jp:'イオン旭川駅前',icon:'🛒',desc:'旭川車站旁的大型購物中心！超市可買零食土產，藥妝店可補貨。美食街也很方便。',hours:'9:00-21:00',budget:'依購買內容',tips:'1F超市可買便宜水果和便當',nav:'イオン旭川駅前',address:'北海道旭川市宮下通7丁目'},
+  {id:'tanukikoji',cat:'shop',day:6,region:'札幌',name:'狸小路商店街',jp:'狸小路商店街',icon:'🛍️',desc:'札幌最熱鬧的商店街！全長約900m有頂棚。藥妝店（松本清、大國藥妝）、土產店、餐廳應有盡有。',hours:'10:00-21:00(各店不同)',budget:'依購買內容',tips:'1-3丁目藥妝最便宜，5-6丁目有特色小店',nav:'狸小路商店街',address:'北海道札幌市中央区南2-3条'},
+  {id:'odori',cat:'shop',day:6,region:'札幌',name:'大通公園地下街',jp:'オーロラタウン',icon:'🏬',desc:'大通公園地下的購物街！連接地鐵站，下雪天也能舒適購物。服飾、雜貨、咖啡廳都有。',hours:'10:00-21:00',budget:'依購買內容',tips:'連接三越、PARCO等百貨',nav:'オーロラタウン札幌',address:'北海道札幌市中央区大通西'},
+  {id:'chitoseaeon',cat:'shop',day:7,region:'千歲',name:'AEON Mall千歲',jp:'イオン千歳',icon:'🛒',desc:'千歲最大購物中心！最後採購土產的好地方。超市、藥妝、百元店都有，還有美食街。',hours:'9:00-21:00',budget:'依購買內容',tips:'距離飯店步行5分，很方便',nav:'イオン千歳店',address:'北海道千歳市栄町6丁目'}
 ];
 
 const phrases=[
@@ -292,9 +336,9 @@ function initCarousel(id){
 }
 
 function init(){
-  setupNav();renderDaySelector();renderDay(1);renderHotels();renderSpots();renderTransport();renderPhraseTabs();renderPhrases();renderBudgetPage();renderInfo();
+  setupNav();renderDaySelector();renderDay(1);renderHotels();renderSpots();renderFood();renderTransport();renderPhraseTabs();renderPhrases();renderBudgetPage();
   fetchWeather(currentDay);
-  setInterval(()=>fetchWeather(currentDay),300000); // 每5分鐘更新
+  setInterval(()=>fetchWeather(currentDay),300000);
   if(API_URL){document.getElementById('setup-section').innerHTML='';syncData();}else renderSetup();
 }
 
@@ -439,6 +483,39 @@ function renderSpots(){
     </div>`).join('');
   setTimeout(()=>spots.forEach(s=>initCarousel('spot-'+s.id)),100);
 }
+
+let currentFoodFilter='all';
+function renderFood(){
+  const foodList=currentFoodFilter==='all'?foodShops:foodShops.filter(f=>f.cat===currentFoodFilter);
+  document.getElementById('page-food').innerHTML=`
+    <div class="food-tabs">
+      <div class="food-tab ${currentFoodFilter==='all'?'active':''}" onclick="filterFood('all')">🍽️ 全部</div>
+      <div class="food-tab ${currentFoodFilter==='food'?'active':''}" onclick="filterFood('food')">🍜 美食</div>
+      <div class="food-tab shop ${currentFoodFilter==='shop'?'active':''}" onclick="filterFood('shop')">🛍️ 購物</div>
+    </div>
+    <div id="food-list">${foodList.map(f=>`
+      <div class="food-card">
+        <div class="food-header ${f.cat==='shop'?'shop':''}">
+          <div class="food-icon">${f.icon}</div>
+          <div class="food-title">
+            <div class="food-name">${f.name}</div>
+            <div class="food-jp">${f.jp}</div>
+          </div>
+          <div class="food-day">Day${f.day} ${f.region}</div>
+        </div>
+        <div class="food-body">
+          <div class="food-desc">${f.desc}</div>
+          <div class="food-info">
+            <div class="food-info-item"><div class="food-info-label">⏰ 營業時間</div><div class="food-info-value">${f.hours}</div></div>
+            <div class="food-info-item"><div class="food-info-label">💰 預算</div><div class="food-info-value">${f.budget}</div></div>
+          </div>
+          <div class="food-tips">💡 ${f.tips}</div>
+          <a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(f.nav)}" target="_blank" class="food-nav-btn">📍 開啟導航</a>
+        </div>
+      </div>`).join('')}
+    </div>`;
+}
+function filterFood(cat){currentFoodFilter=cat;renderFood();}
 
 const restStops=[
   {day:1,route:'新千歲→富良野',km:123,stops:[{name:'道の駅 三笠',dist:'約60km處',time:'約1小時',feature:'北海道第1號道之駅、溫泉設施、自製冰淇淋',nav:'道の駅三笠'}]},
