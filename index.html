@@ -29,9 +29,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .nav-item small{font-size:10px}
 .card{background:#fff;border-radius:16px;margin-bottom:16px;box-shadow:0 2px 12px rgba(0,0,0,.08);overflow:hidden}
 .card-header{padding:14px 16px;color:#fff;background:linear-gradient(135deg,var(--blue),var(--navy))}
-.card-header.purple{background:linear-gradient(135deg,var(--purple),#512da8)}
-.card-header.orange{background:linear-gradient(135deg,var(--orange),#f57c00)}
-.card-header.green{background:linear-gradient(135deg,var(--green),#00e676)}
 .card-title{font-size:17px;font-weight:700}
 .card-sub{font-size:13px;opacity:.9;margin-top:2px}
 .card-body{padding:16px}
@@ -53,8 +50,21 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .day-btn-num{font-size:18px;font-weight:700}
 .day-btn-date{font-size:10px;opacity:.7;margin-top:2px}
 
+/* 景點卡片 + 輪播 */
 .spot-card{background:#fff;border-radius:16px;margin-bottom:16px;box-shadow:0 2px 12px rgba(0,0,0,.08);overflow:hidden}
-.spot-img{width:100%;height:180px;object-fit:cover;background:linear-gradient(135deg,#e3f2fd,#bbdefb)}
+.carousel{position:relative;width:100%;height:200px;overflow:hidden;background:linear-gradient(135deg,#e3f2fd,#bbdefb)}
+.carousel-inner{display:flex;transition:transform .4s ease;height:100%}
+.carousel-slide{min-width:100%;height:100%}
+.carousel-slide img{width:100%;height:100%;object-fit:cover}
+.carousel-btn{position:absolute;top:50%;transform:translateY(-50%);background:rgba(0,0,0,.4);color:#fff;border:none;width:36px;height:36px;border-radius:50%;font-size:18px;cursor:pointer;z-index:10}
+.carousel-btn:active{background:rgba(0,0,0,.6)}
+.carousel-btn.prev{left:8px}
+.carousel-btn.next{right:8px}
+.carousel-dots{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);display:flex;gap:6px;z-index:10}
+.carousel-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.5);cursor:pointer;transition:all .3s}
+.carousel-dot.active{background:#fff;width:20px;border-radius:4px}
+.carousel-counter{position:absolute;top:10px;right:10px;background:rgba(0,0,0,.5);color:#fff;padding:4px 10px;border-radius:12px;font-size:12px;z-index:10}
+
 .spot-body{padding:16px}
 .spot-region{display:inline-block;background:var(--blue);color:#fff;padding:4px 12px;border-radius:12px;font-size:12px;margin-bottom:10px}
 .spot-name{font-size:20px;font-weight:700}
@@ -134,7 +144,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .expense-list{background:#fff;border-radius:16px;box-shadow:0 2px 12px rgba(0,0,0,.08);overflow:hidden}
 .expense-item{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;border-bottom:1px solid #f0f0f0}
 .expense-item:last-child{border-bottom:none}
-.expense-item:active{background:#f5f5f5}
 .expense-left{display:flex;align-items:center;gap:12px}
 .expense-icon{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px}
 .expense-info{flex:1}
@@ -179,13 +188,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .modal-content{background:#fff;width:100%;max-width:500px;border-radius:24px 24px 0 0;padding:24px;padding-bottom:40px;max-height:90vh;overflow-y:auto}
 .modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
 .modal-title{font-size:20px;font-weight:700}
-.modal-close{background:none;border:none;font-size:28px;color:var(--light);cursor:pointer;padding:4px}
+.modal-close{background:none;border:none;font-size:28px;color:var(--light);cursor:pointer}
 .form-group{margin-bottom:16px}
 .form-label{display:block;font-size:14px;font-weight:500;margin-bottom:8px;color:var(--gray)}
 .form-input,.form-select{width:100%;padding:14px;border:2px solid #e0e0e0;border-radius:12px;font-size:16px;background:#fff}
 .form-input:focus,.form-select:focus{outline:none;border-color:var(--blue)}
-.form-submit{width:100%;padding:16px;background:var(--blue);color:#fff;border:none;border-radius:12px;font-size:17px;font-weight:700;cursor:pointer;margin-top:8px}
-.form-submit:disabled{background:#ccc}
+.form-submit{width:100%;padding:16px;background:var(--blue);color:#fff;border:none;border-radius:12px;font-size:17px;font-weight:700;cursor:pointer}
 
 .toast{position:fixed;bottom:100px;left:50%;transform:translateX(-50%);background:#333;color:#fff;padding:14px 24px;border-radius:25px;font-size:15px;z-index:300;opacity:0;transition:opacity .3s;pointer-events:none}
 .toast.show{opacity:1}
@@ -215,28 +223,18 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
         <div class="backup-text">若第1天班機問題，可取消富良野住宿，第2天從機場直接到旭川。</div>
       </div>
     </div>
-
     <div class="page" id="page-hotels"></div>
     <div class="page" id="page-spots"></div>
     <div class="page" id="page-transport"></div>
-
-    <div class="page" id="page-phrases">
-      <div class="phrase-tabs" id="phrase-tabs"></div>
-      <div id="phrases-list"></div>
-    </div>
-
+    <div class="page" id="page-phrases"><div class="phrase-tabs" id="phrase-tabs"></div><div id="phrases-list"></div></div>
     <div class="page" id="page-budget">
       <div id="setup-section"></div>
       <div class="budget-grid" id="budget-grid"></div>
-      <div class="expense-header">
-        <div class="expense-title">📝 消費記錄</div>
-        <button class="expense-add-btn" onclick="openModal()">＋ 新增</button>
-      </div>
+      <div class="expense-header"><div class="expense-title">📝 消費記錄</div><button class="expense-add-btn" onclick="openModal()">＋ 新增</button></div>
       <div class="expense-status" id="conn-status"><span>⏳</span> 未連線</div>
       <div class="expense-cats" id="expense-cats"></div>
       <div class="expense-list" id="expense-list"><div class="expense-empty">請先設定 Google Sheets 連線</div></div>
     </div>
-
     <div class="page" id="page-info"></div>
   </div>
 
@@ -253,10 +251,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 
 <div class="modal" id="modal">
   <div class="modal-content">
-    <div class="modal-header">
-      <div class="modal-title">💰 新增消費</div>
-      <button class="modal-close" onclick="closeModal()">×</button>
-    </div>
+    <div class="modal-header"><div class="modal-title">💰 新增消費</div><button class="modal-close" onclick="closeModal()">×</button></div>
     <form onsubmit="addExpense(event)">
       <div class="form-group"><label class="form-label">日期</label><input type="date" class="form-input" id="f-date" required></div>
       <div class="form-group"><label class="form-label">分類</label><select class="form-select" id="f-cat"><option value="flight">✈️ 機票</option><option value="hotel">🏨 住宿</option><option value="car">🚗 租車/油費</option><option value="food">🍽️ 餐飲</option><option value="ticket">🎫 門票</option><option value="shopping">🛍️ 購物</option><option value="other">📦 其他</option></select></div>
@@ -267,7 +262,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
     </form>
   </div>
 </div>
-
 <div class="toast" id="toast"></div>
 
 <script>
@@ -279,6 +273,152 @@ let currentDay = 1;
 let currentPhraseFilter = 'all';
 let currentExpenseFilter = 'all';
 
+// ============ 圖片路徑設定 ============
+// 請將圖片上傳到 GitHub 的 images 資料夾
+// 檔名格式：景點名稱-編號.jpg（例如：ningle-1.jpg）
+const IMG_BASE = './images/';
+
+// 景點資料（含輪播圖片）
+const spots = [
+  {
+    id: 'ningle',
+    region: '富良野',
+    name: '🧚 精靈露台',
+    jp: 'ニングルテラス',
+    images: [
+      IMG_BASE + 'ningle-1.jpg',
+      IMG_BASE + 'ningle-2.jpg',
+      IMG_BASE + 'ningle-3.jpg'
+    ],
+    desc: '森林中約15間夢幻小木屋，由脚本家倉本聰作品命名。「ニングル」在愛努語中意指「森林小精靈」。每間小屋都是獨立工藝品店，販售手工蠟燭、銀飾、木雕等。冬季夜間點燈後如童話世界。',
+    address: '北海道富良野市中御料',
+    hours: '12:00-20:45',
+    price: '免費入場',
+    tips: '建議下午4點後來，可同時拍到日景和夜間點燈。天冷記得保暖！',
+    nav: '精靈露台 富良野'
+  },
+  {
+    id: 'biei',
+    region: '美瑛',
+    name: '🌲 美瑛名樹巡禮',
+    jp: '美瑛の丘',
+    images: [
+      IMG_BASE + 'biei-1.jpg',
+      IMG_BASE + 'biei-2.jpg',
+      IMG_BASE + 'biei-3.jpg'
+    ],
+    desc: '美瑛丘陵地形上的獨立樹木，因廣告而聞名。「聖誕樹」是獨立於雪原上的雲杉，「Ken與Mary之樹」因日產汽車廣告得名，「七星之樹」則是七星香菸包裝的取景地。',
+    address: '北海道上川郡美瑛町',
+    hours: '全天開放',
+    price: '免費',
+    tips: '樹木都在農地私有地附近，請勿進入農地拍照。冬季道路濕滑注意安全。',
+    nav: '美瑛 聖誕樹'
+  },
+  {
+    id: 'asahiyama',
+    region: '旭川',
+    name: '🐧 旭山動物園',
+    jp: 'あさひやまどうぶつえん',
+    images: [
+      IMG_BASE + 'asahiyama-1.jpg',
+      IMG_BASE + 'asahiyama-2.jpg',
+      IMG_BASE + 'asahiyama-3.jpg'
+    ],
+    desc: '日本最北端的動物園，以「行動展示」聞名。冬季限定的「企鵝散步」是最大亮點，胖嘟嘟的企鵝搖搖擺擺走在雪地上超療癒！還可看到北極熊游泳、海豹穿越水道。',
+    address: '北海道旭川市東旭川町倉沼',
+    hours: '冬季 10:30-15:30',
+    price: '成人 ¥1,000',
+    tips: '企鵝散步：11:00、14:30（提前30分鐘卡位）。禁止使用閃光燈！',
+    nav: '旭山動物園'
+  },
+  {
+    id: 'sounkyo',
+    region: '層雲峽',
+    name: '🧊 層雲峽冰瀑祭',
+    jp: '層雲峡温泉氷瀑まつり',
+    images: [
+      IMG_BASE + 'sounkyo-1.jpg',
+      IMG_BASE + 'sounkyo-2.jpg',
+      IMG_BASE + 'sounkyo-3.jpg'
+    ],
+    desc: '北海道三大冬祭之一！利用石狩川河床約1萬平方公尺的場地，展示約30座大小冰雕。白天冰雕呈現神秘藍光，夜晚七彩燈光照射更加夢幻。每晚20:00煙火表演！',
+    address: '北海道上川郡上川町層雲峽溫泉',
+    hours: '17:00-21:30',
+    price: '入場 ¥1,000',
+    tips: '會場地面非常滑！務必穿防滑雪靴。氣溫可能-20°C以下，做好保暖。',
+    nav: '層雲峽冰瀑祭'
+  },
+  {
+    id: 'kitakitsune',
+    region: '北見',
+    name: '🦊 北狐牧場',
+    jp: '北きつね牧場',
+    images: [
+      IMG_BASE + 'kitakitsune-1.jpg',
+      IMG_BASE + 'kitakitsune-2.jpg',
+      IMG_BASE + 'kitakitsune-3.jpg'
+    ],
+    desc: '約60隻北海道狐狸在6萬平方公尺的園區內自由放養。與動物園不同，這裡的狐狸不怕人，會主動靠近遊客腳邊。冬季毛茸茸的「冬毛」狀態最可愛！',
+    address: '北海道北見市留辺蘂町花丘52-1',
+    hours: '冬季 9:00-16:00',
+    price: '成人 ¥500',
+    tips: '禁止觸摸狐狸和餵食。狐狸有野性，請勿蹲下或做突然動作。',
+    nav: '北きつね牧場'
+  },
+  {
+    id: 'akan',
+    region: '阿寒湖',
+    name: '🎣 阿寒湖冰上釣魚',
+    jp: 'わかさぎ釣り',
+    images: [
+      IMG_BASE + 'akan-1.jpg',
+      IMG_BASE + 'akan-2.jpg',
+      IMG_BASE + 'akan-3.jpg'
+    ],
+    desc: '冬季限定體驗！在結冰的阿寒湖面上鑿洞釣西太公魚（わかさぎ）。租借釣具、帳篷，工作人員會教學。釣到的魚可以現場油炸品嚐，超美味！',
+    address: '北海道釧路市阿寒町阿寒湖溫泉',
+    hours: '約 8:00-16:00',
+    price: '約 ¥1,500-2,000',
+    tips: '湖上帳篷內有暖爐但還是很冷，建議穿最保暖的衣物。',
+    nav: '阿寒湖'
+  },
+  {
+    id: 'rokkatei',
+    region: '帶廣',
+    name: '🍰 六花亭本店',
+    jp: '六花亭',
+    images: [
+      IMG_BASE + 'rokkatei-1.jpg',
+      IMG_BASE + 'rokkatei-2.jpg',
+      IMG_BASE + 'rokkatei-3.jpg'
+    ],
+    desc: '北海道最知名的甜點品牌！本店限定的「サクサクパイ」（酥脆派）只有這裡吃得到。必買伴手禮：奶油葡萄夾心餅乾。2樓有咖啡廳可以悠閒品嚐。',
+    address: '北海道帶廣市西2条南9丁目6番地',
+    hours: '9:00-18:00',
+    price: '伴手禮約 ¥500-2,000',
+    tips: '本店限定的酥脆派賞味期限只有3小時！記得現場吃。',
+    nav: '六花亭 帯広本店'
+  },
+  {
+    id: 'snowfes',
+    region: '札幌',
+    name: '❄️ 札幌雪祭',
+    jp: 'さっぽろ雪まつり',
+    images: [
+      IMG_BASE + 'snowfes-1.jpg',
+      IMG_BASE + 'snowfes-2.jpg',
+      IMG_BASE + 'snowfes-3.jpg'
+    ],
+    desc: '日本最大規模的雪祭！大通公園會場展示巨型雪雕，有些高達15公尺。夜間點燈後更加壯觀。Tsudome會場可以玩雪上滑梯等設施，適合親子同遊。',
+    address: '北海道札幌市中央區大通公園',
+    hours: '全天開放',
+    price: '免費入場',
+    tips: '2026年預計2/4-2/11舉辦，我們2/2抵達可先看準備中的雪雕！',
+    nav: '大通公園 札幌'
+  }
+];
+
+// 行程資料
 const itinerary = [
   {day:1,date:'1/28(三)',title:'抵達・富良野',km:'123km',items:[
     {time:'06:20',title:'✈️ 台北出發',desc:'虎航 IT234'},
@@ -336,106 +476,6 @@ const itinerary = [
   ]}
 ];
 
-// 使用 Unsplash 免費圖片（這些都是穩定可用的）
-const spots = [
-  {
-    region:'富良野',
-    name:'🧚 精靈露台',
-    jp:'ニングルテラス',
-    img:'https://images.unsplash.com/photo-1548116137-c9ac24e446c9?w=800&h=400&fit=crop',
-    desc:'森林中約15間夢幻小木屋，由脚本家倉本聰作品命名。「ニングル」在愛努語中意指「森林小精靈」。每間小屋都是獨立工藝品店，販售手工蠟燭、銀飾、木雕等。冬季夜間點燈後如童話世界。',
-    address:'北海道富良野市中御料',
-    hours:'12:00-20:45',
-    price:'免費入場',
-    tips:'建議下午4點後來，可同時拍到日景和夜間點燈。天冷記得保暖！',
-    nav:'精靈露台 富良野'
-  },
-  {
-    region:'美瑛',
-    name:'🌲 美瑛名樹巡禮',
-    jp:'美瑛の丘',
-    img:'https://images.unsplash.com/photo-1491002052546-bf38f186af56?w=800&h=400&fit=crop',
-    desc:'美瑛丘陵地形上的獨立樹木，因廣告而聞名。「聖誕樹」是獨立於雪原上的雲杉，「Ken與Mary之樹」因日產汽車廣告得名，「七星之樹」則是七星香菸包裝的取景地。',
-    address:'北海道上川郡美瑛町',
-    hours:'全天開放',
-    price:'免費',
-    tips:'樹木都在農地私有地附近，請勿進入農地拍照。冬季道路濕滑注意安全。',
-    nav:'美瑛 聖誕樹'
-  },
-  {
-    region:'旭川',
-    name:'🐧 旭山動物園',
-    jp:'あさひやまどうぶつえん',
-    img:'https://images.unsplash.com/photo-1559253664-ca249d4608c6?w=800&h=400&fit=crop',
-    desc:'日本最北端的動物園，以「行動展示」聞名。冬季限定的「企鵝散步」是最大亮點，胖嘟嘟的企鵝搖搖擺擺走在雪地上超療癒！還可看到北極熊游泳、海豹穿越水道。',
-    address:'北海道旭川市東旭川町倉沼',
-    hours:'冬季 10:30-15:30',
-    price:'成人 ¥1,000',
-    tips:'企鵝散步：11:00、14:30（提前30分鐘卡位）。禁止使用閃光燈！',
-    nav:'旭山動物園'
-  },
-  {
-    region:'層雲峽',
-    name:'🧊 層雲峽冰瀑祭',
-    jp:'層雲峡温泉氷瀑まつり',
-    img:'https://images.unsplash.com/photo-1516912481808-3406841bd33c?w=800&h=400&fit=crop',
-    desc:'北海道三大冬祭之一！利用石狩川河床約1萬平方公尺的場地，展示約30座大小冰雕。白天冰雕呈現神秘藍光，夜晚七彩燈光照射更加夢幻。每晚20:00煙火表演！',
-    address:'北海道上川郡上川町層雲峽溫泉',
-    hours:'17:00-21:30',
-    price:'入場 ¥1,000',
-    tips:'會場地面非常滑！務必穿防滑雪靴。氣溫可能-20°C以下，做好保暖。',
-    nav:'層雲峽冰瀑祭'
-  },
-  {
-    region:'北見',
-    name:'🦊 北狐牧場',
-    jp:'北きつね牧場',
-    img:'https://images.unsplash.com/photo-1474511320723-9a56873571b7?w=800&h=400&fit=crop',
-    desc:'約60隻北海道狐狸在6萬平方公尺的園區內自由放養。與動物園不同，這裡的狐狸不怕人，會主動靠近遊客腳邊。冬季毛茸茸的「冬毛」狀態最可愛！',
-    address:'北海道北見市留辺蘂町花丘52-1',
-    hours:'冬季 9:00-16:00',
-    price:'成人 ¥500',
-    tips:'禁止觸摸狐狸和餵食。狐狸有野性，請勿蹲下或做突然動作。',
-    nav:'北きつね牧場'
-  },
-  {
-    region:'阿寒湖',
-    name:'🎣 阿寒湖冰上釣魚',
-    jp:'わかさぎ釣り',
-    img:'https://images.unsplash.com/photo-1478719059408-592965723cbc?w=800&h=400&fit=crop',
-    desc:'冬季限定體驗！在結冰的阿寒湖面上鑿洞釣西太公魚（わかさぎ）。租借釣具、帳篷，工作人員會教學。釣到的魚可以現場油炸品嚐，超美味！',
-    address:'北海道釧路市阿寒町阿寒湖溫泉',
-    hours:'約 8:00-16:00',
-    price:'約 ¥1,500-2,000',
-    tips:'湖上帳篷內有暖爐但還是很冷，建議穿最保暖的衣物。',
-    nav:'阿寒湖'
-  },
-  {
-    region:'帶廣',
-    name:'🍰 六花亭本店',
-    jp:'六花亭',
-    img:'https://images.unsplash.com/photo-1551024506-0bccd828d307?w=800&h=400&fit=crop',
-    desc:'北海道最知名的甜點品牌！本店限定的「サクサクパイ」（酥脆派）只有這裡吃得到。必買伴手禮：奶油葡萄夾心餅乾。2樓有咖啡廳可以悠閒品嚐。',
-    address:'北海道帶廣市西2条南9丁目6番地',
-    hours:'9:00-18:00',
-    price:'伴手禮約 ¥500-2,000',
-    tips:'本店限定的酥脆派賞味期限只有3小時！記得現場吃。',
-    nav:'六花亭 帯広本店'
-  },
-  {
-    region:'札幌',
-    name:'❄️ 札幌雪祭',
-    jp:'さっぽろ雪まつり',
-    img:'https://images.unsplash.com/photo-1542931287-023b922fa89b?w=800&h=400&fit=crop',
-    desc:'日本最大規模的雪祭！大通公園會場展示巨型雪雕，有些高達15公尺。夜間點燈後更加壯觀。Tsudome會場可以玩雪上滑梯等設施，適合親子同遊。',
-    address:'北海道札幌市中央區大通公園',
-    hours:'全天開放',
-    price:'免費入場',
-    tips:'2026年預計2/4-2/11舉辦，我們2/2抵達可先看準備中的雪雕！',
-    nav:'大通公園 札幌'
-  }
-];
-
 const hotels = [
   {date:'1/28',nights:'1晚',name:'富良野拉漁村酒店',location:'Furano la terre',room:'4人榻榻米',booking:'EZ訂房',tags:['♨️溫泉','🍳早餐','🍽️晚餐'],price:7000},
   {date:'1/29',nights:'1晚',name:'旭川客樂森酒店',location:'旭川Grand Hotel',room:'2間房',booking:'Agoda',extra:'早餐¥1,760×2+停車¥800',tags:['♨️溫泉','🅿️付費停車'],price:4643},
@@ -468,6 +508,49 @@ const phrases = [
   {cat:'emergency',jp:'気分が悪いです',ro:'Kibun ga warui desu',zh:'我不舒服'}
 ];
 
+// ============ 輪播功能 ============
+function initCarousel(spotId) {
+  const carousel = document.querySelector(`[data-carousel="${spotId}"]`);
+  if (!carousel) return;
+  
+  const inner = carousel.querySelector('.carousel-inner');
+  const dots = carousel.querySelectorAll('.carousel-dot');
+  const counter = carousel.querySelector('.carousel-counter');
+  const slides = carousel.querySelectorAll('.carousel-slide');
+  const total = slides.length;
+  let current = 0;
+  let startX = 0;
+  let isDragging = false;
+
+  function goTo(index) {
+    if (index < 0) index = total - 1;
+    if (index >= total) index = 0;
+    current = index;
+    inner.style.transform = `translateX(-${current * 100}%)`;
+    dots.forEach((d, i) => d.classList.toggle('active', i === current));
+    if (counter) counter.textContent = `${current + 1} / ${total}`;
+  }
+
+  carousel.querySelector('.prev')?.addEventListener('click', () => goTo(current - 1));
+  carousel.querySelector('.next')?.addEventListener('click', () => goTo(current + 1));
+  dots.forEach((dot, i) => dot.addEventListener('click', () => goTo(i)));
+
+  // 觸控滑動
+  inner.addEventListener('touchstart', (e) => { startX = e.touches[0].clientX; isDragging = true; });
+  inner.addEventListener('touchmove', (e) => { if (!isDragging) return; });
+  inner.addEventListener('touchend', (e) => {
+    if (!isDragging) return;
+    const endX = e.changedTouches[0].clientX;
+    const diff = startX - endX;
+    if (Math.abs(diff) > 50) { diff > 0 ? goTo(current + 1) : goTo(current - 1); }
+    isDragging = false;
+  });
+
+  // 自動輪播
+  setInterval(() => goTo(current + 1), 5000);
+}
+
+// ============ 初始化 ============
 function init() {
   setupNavigation();
   renderDaySelector();
@@ -485,11 +568,10 @@ function init() {
 function setupNavigation() {
   document.querySelectorAll('.nav-item').forEach(item => {
     item.addEventListener('click', () => {
-      const page = item.dataset.page;
       document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
       document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
       item.classList.add('active');
-      document.getElementById('page-' + page).classList.add('active');
+      document.getElementById('page-' + item.dataset.page).classList.add('active');
     });
   });
 }
@@ -518,10 +600,19 @@ function renderHotels() {
   `).join('');
 }
 
+// 渲染景點（含輪播）
 function renderSpots() {
   document.getElementById('page-spots').innerHTML = spots.map(s => `
     <div class="spot-card">
-      <img class="spot-img" src="${s.img}" alt="${s.name}" loading="lazy">
+      <div class="carousel" data-carousel="${s.id}">
+        <div class="carousel-inner">
+          ${s.images.map((img, i) => `<div class="carousel-slide"><img src="${img}" alt="${s.name} ${i+1}" onerror="this.parentElement.innerHTML='<div style=\\'display:flex;align-items:center;justify-content:center;height:100%;background:linear-gradient(135deg,#e3f2fd,#bbdefb);color:#1976d2;font-size:14px;text-align:center;padding:20px\\'>📷 請上傳圖片<br>${s.id}-${i+1}.jpg</div>'"></div>`).join('')}
+        </div>
+        <button class="carousel-btn prev">❮</button>
+        <button class="carousel-btn next">❯</button>
+        <div class="carousel-dots">${s.images.map((_, i) => `<span class="carousel-dot ${i === 0 ? 'active' : ''}"></span>`).join('')}</div>
+        <div class="carousel-counter">1 / ${s.images.length}</div>
+      </div>
       <div class="spot-body">
         <span class="spot-region">${s.region}</span>
         <div class="spot-name">${s.name}</div>
@@ -537,6 +628,9 @@ function renderSpots() {
       </div>
     </div>
   `).join('');
+
+  // 初始化所有輪播
+  setTimeout(() => spots.forEach(s => initCarousel(s.id)), 100);
 }
 
 function renderTransport() {
@@ -600,7 +694,8 @@ function renderInfo() {
   document.getElementById('page-info').innerHTML = `<div class="info-card"><div class="info-header">🚨 緊急電話</div><div class="emergency-box"><h4>警察</h4><p>110</p></div><div class="emergency-box" style="background:#ff6d00"><h4>消防/救護車</h4><p>119</p></div><div class="info-body"><div class="info-row"><span class="info-label">駐日代表處</span><span class="info-value">03-2280-7917</span></div></div></div><div class="info-card"><div class="info-header">🌡️ 天氣參考</div><div class="info-body"><div class="info-row"><span class="info-label">富良野/美瑛</span><span class="info-value">-15~-5°C</span></div><div class="info-row"><span class="info-label">旭川</span><span class="info-value">-12~-3°C</span></div><div class="info-row"><span class="info-label">層雲峽</span><span class="info-value">-18~-8°C</span></div><div class="info-row"><span class="info-label">阿寒湖</span><span class="info-value">-20~-10°C</span></div><div class="info-row"><span class="info-label">札幌</span><span class="info-value">-8~0°C</span></div></div></div><div class="info-card"><div class="info-header">💡 實用資訊</div><div class="info-body"><div class="info-row"><span class="info-label">匯率參考</span><span class="info-value">¥100≈NT$21</span></div><div class="info-row"><span class="info-label">電壓</span><span class="info-value">100V 雙扁插</span></div><div class="info-row"><span class="info-label">時差</span><span class="info-value">比台灣快1小時</span></div><div class="info-row"><span class="info-label">免稅條件</span><span class="info-value">同店滿¥5,000</span></div></div></div><div class="info-card"><div class="info-header">🚗 雪地駕駛注意</div><div class="info-body"><div class="info-row"><span class="info-label">速度</span><span class="info-value">比平常慢20-30%</span></div><div class="info-row"><span class="info-label">煞車</span><span class="info-value">提早輕踩避免急煞</span></div><div class="info-row"><span class="info-label">車距</span><span class="info-value">保持3倍以上距離</span></div><div class="info-row"><span class="info-label">停車</span><span class="info-value">不放手煞車(會結冰)</span></div><div class="info-row"><span class="info-label">加油</span><span class="info-value">選「レギュラー」</span></div></div></div><div class="info-card"><div class="info-header">📝 小提醒</div><div class="info-body" style="padding:16px"><div style="font-size:15px;line-height:2;color:#546e7a">🔸 便利商店24小時可買熱食、提款<br>🔸 泡溫泉前先淋浴，毛巾不入池<br>🔸 餐廳用餐無需給小費<br>🔸 DCM可買鞋釘（防滑用）</div></div></div>`;
 }
 
-function saveApiUrl() { const url = document.getElementById('api-url').value.trim(); if (!url) { showSetupStatus('請輸入網址', 'error'); return; } API_URL = url; localStorage.setItem(STORAGE_KEY, url); showSetupStatus('已儲存！正在測試...', 'success'); testConnection(); }
+// ============ API 功能 ============
+function saveApiUrl() { const url = document.getElementById('api-url').value.trim(); if (!url) { showSetupStatus('請輸入網址', 'error'); return; } API_URL = url; localStorage.setItem(STORAGE_KEY, url); showSetupStatus('已儲存！', 'success'); testConnection(); }
 
 async function testConnection() {
   if (!API_URL) { showSetupStatus('請先輸入網址', 'error'); return; }
@@ -608,12 +703,12 @@ async function testConnection() {
   try {
     const response = await fetch(`${API_URL}?action=get`);
     const data = await response.json();
-    if (data.success) { isOnline = true; updateConnStatus('online'); showSetupStatus(`連線成功！${data.expenses.length} 筆資料`, 'success'); document.getElementById('setup-section').innerHTML = ''; if (data.expenses.length === 0) { initDefaultData(); } else { expenses = data.expenses; renderExpenses(); updateBudget(); } }
-    else { throw new Error(data.error || '連線失敗'); }
-  } catch (error) { isOnline = false; updateConnStatus('error'); showSetupStatus('連線失敗：' + error.message, 'error'); }
+    if (data.success) { isOnline = true; updateConnStatus('online'); showSetupStatus(`連線成功！${data.expenses.length} 筆`, 'success'); document.getElementById('setup-section').innerHTML = ''; if (data.expenses.length === 0) { initDefaultData(); } else { expenses = data.expenses; renderExpenses(); updateBudget(); } }
+    else { throw new Error(data.error); }
+  } catch (error) { isOnline = false; updateConnStatus('error'); showSetupStatus('連線失敗', 'error'); }
 }
 
-async function initDefaultData() { try { const response = await fetch(`${API_URL}?action=init`); const data = await response.json(); if (data.success) { showToast('已初始化資料', 'success'); syncData(); } } catch (error) { console.error(error); } }
+async function initDefaultData() { try { const response = await fetch(`${API_URL}?action=init`); const data = await response.json(); if (data.success) { showToast('已初始化', 'success'); syncData(); } } catch (error) { console.error(error); } }
 
 async function syncData() {
   if (!API_URL) return;
