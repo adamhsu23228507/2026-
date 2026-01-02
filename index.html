@@ -179,6 +179,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
     <a class="nav-item" data-page="info"><span>ℹ️</span><small>資訊</small></a>
   </nav>
 </div>
+<div class="modal" id="booking-modal">
+  <div class="modal-content" style="max-height:95vh">
+    <div class="modal-header"><div class="modal-title">📄 訂購單截圖</div><button class="modal-close" onclick="closeBookingModal()">×</button></div>
+    <div id="booking-content" style="text-align:center"></div>
+  </div>
+</div>
 <div class="modal" id="modal">
   <div class="modal-content">
     <div class="modal-header"><div class="modal-title">💰 新增消費</div><button class="modal-close" onclick="closeModal()">×</button></div>
@@ -280,7 +286,7 @@ function renderHotels(){
         <div class="hotel-tags">${h.tags.map(t=>`<span class="hotel-tag ${h.warn?'warn':''} ${h.no?'no':''}">${t}</span>`).join('')}</div>
         <div class="hotel-nearby"><div class="hotel-nearby-title">📍 周邊設施</div>${h.nearby.map(n=>`<div class="nearby-item"><span class="nearby-icon">${n.icon}</span><span class="nearby-name">${n.name}</span><span class="nearby-dist">${n.dist}</span>${n.nav?`<a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(n.nav)}" target="_blank" class="nearby-nav">導航</a>`:''}</div>`).join('')}</div>
         <div class="hotel-price"><span class="hotel-price-label">${h.warn?'預估':'房價'}</span><span class="hotel-price-value">NT$${h.price.toLocaleString()}</span></div>
-        <a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(h.location)}" target="_blank" class="hotel-nav-btn">📍 導航到飯店</a>
+        <div style="display:flex;gap:10px;margin-top:14px"><a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(h.location)}" target="_blank" class="hotel-nav-btn" style="flex:1;margin-top:0">📍 導航</a><button onclick="showBooking('${h.id}')" class="hotel-nav-btn" style="flex:1;margin-top:0;background:linear-gradient(135deg,var(--blue),var(--navy));border:none;cursor:pointer">📄 訂購單</button></div>
       </div>
     </div>`).join('');
   setTimeout(()=>hotels.forEach(h=>initCarousel('hotel-'+h.id)),100);
@@ -338,6 +344,37 @@ function closeModal(){document.getElementById('modal').classList.remove('active'
 async function addExpense(e){e.preventDefault();const btn=document.getElementById('submit-btn');btn.disabled=true;btn.textContent='新增中...';const params=new URLSearchParams({action:'add',id:Date.now().toString(),date:document.getElementById('f-date').value,category:document.getElementById('f-cat').value,description:document.getElementById('f-desc').value,currency:document.getElementById('f-cur').value,amount:document.getElementById('f-amt').value});try{const r=await fetch(`${API_URL}?${params}`);const d=await r.json();if(d.success){showToast('新增成功','success');closeModal();document.querySelector('form').reset();syncData();}else throw new Error();}catch(e){showToast('新增失敗','error');}finally{btn.disabled=false;btn.textContent='新增消費';}}
 async function deleteExpense(id){if(!confirm('確定刪除？'))return;try{const r=await fetch(`${API_URL}?action=delete&id=${id}`);const d=await r.json();if(d.success){showToast('已刪除','success');syncData();}else throw new Error();}catch(e){showToast('刪除失敗','error');}}
 function showToast(msg,type=''){const t=document.getElementById('toast');t.textContent=msg;t.className='toast show '+type;setTimeout(()=>t.className='toast',2500);}
+function showBooking(hotelId){
+  const modal=document.getElementById('booking-modal');
+  const content=document.getElementById('booking-content');
+  const multipleBookings={asahikawa:2};
+  const count=multipleBookings[hotelId]||1;
+  let html='';
+  if(count===1){
+    html=`<img id="booking-img-0" src="${IMG_BASE}booking-${hotelId}.jpg" alt="訂購單" style="max-width:100%;border-radius:12px;box-shadow:0 2px 12px rgba(0,0,0,.1)" onerror="this.style.display='none';document.getElementById('booking-placeholder-0').style.display='block'">
+    <div id="booking-placeholder-0" style="display:none;padding:40px 20px;color:var(--gray)">
+      <div style="font-size:48px;margin-bottom:12px">📷</div>
+      <div style="font-size:15px;margin-bottom:8px">尚未上傳訂購單截圖</div>
+      <div style="font-size:13px;color:var(--light)">請將截圖命名為 <strong>booking-${hotelId}.jpg</strong><br>放入 images 資料夾</div>
+    </div>`;
+  }else{
+    for(let i=1;i<=count;i++){
+      html+=`<div style="margin-bottom:16px;${i>1?'padding-top:16px;border-top:2px dashed #e0e0e0':''}">
+        <div style="font-size:14px;font-weight:600;color:var(--blue);margin-bottom:10px">📄 訂購單 ${i}</div>
+        <img src="${IMG_BASE}booking-${hotelId}-${i}.jpg" alt="訂購單${i}" style="max-width:100%;border-radius:12px;box-shadow:0 2px 12px rgba(0,0,0,.1)" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+        <div style="display:none;padding:30px 20px;color:var(--gray);background:#f8f9fa;border-radius:12px">
+          <div style="font-size:36px;margin-bottom:8px">📷</div>
+          <div style="font-size:14px;margin-bottom:6px">尚未上傳訂購單 ${i}</div>
+          <div style="font-size:12px;color:var(--light)">檔名：<strong>booking-${hotelId}-${i}.jpg</strong></div>
+        </div>
+      </div>`;
+    }
+  }
+  content.innerHTML=html;
+  modal.classList.add('active');
+}
+function closeBookingModal(){document.getElementById('booking-modal').classList.remove('active');}
+document.getElementById('booking-modal').addEventListener('click',e=>{if(e.target.id==='booking-modal')closeBookingModal();});
 document.getElementById('modal').addEventListener('click',e=>{if(e.target.id==='modal')closeModal();});
 document.addEventListener('DOMContentLoaded',init);
 </script>
