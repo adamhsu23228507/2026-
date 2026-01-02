@@ -371,12 +371,12 @@ function renderWeather(day,data,loc){
       </div>
       <div class="weather-alert ${alertLevel}">${alertMsg}</div>
       <div class="weather-grid">
-        <div class="weather-item"><div class="weather-label">氣溫</div><div class="weather-value cold">${current.temperature_2m}°C</div></div>
-        <div class="weather-item"><div class="weather-label">體感</div><div class="weather-value cold">${current.apparent_temperature}°C</div></div>
-        <div class="weather-item"><div class="weather-label">6hr降雪</div><div class="weather-value ${snowfall6h>=3?'warn':''}">${snowfall6h.toFixed(1)}cm</div></div>
-        <div class="weather-item"><div class="weather-label">風速</div><div class="weather-value">${current.wind_speed_10m}km/h</div></div>
-        <div class="weather-item"><div class="weather-label">日出</div><div class="weather-value">${sunrise}</div></div>
-        <div class="weather-item"><div class="weather-label">日落</div><div class="weather-value">${sunset}</div></div>
+        <div class="weather-item"><div class="weather-label">🌡️ 氣溫</div><div class="weather-value cold">${current.temperature_2m}°C</div></div>
+        <div class="weather-item"><div class="weather-label">🥶 體感</div><div class="weather-value cold">${current.apparent_temperature}°C</div></div>
+        <div class="weather-item"><div class="weather-label">❄️ 6hr雪</div><div class="weather-value ${snowfall6h>=3?'warn':''}">${snowfall6h.toFixed(1)}cm</div></div>
+        <div class="weather-item"><div class="weather-label">💨 風速</div><div class="weather-value">${current.wind_speed_10m}km/h</div></div>
+        <div class="weather-item"><div class="weather-label">🌅 日出</div><div class="weather-value">${sunrise}</div></div>
+        <div class="weather-item"><div class="weather-label">🌇 日落</div><div class="weather-value">${sunset}</div></div>
       </div>
       <div class="road-status">
         <div class="road-title"><span>🛣️ 相關道路</span><a href="https://northern-road.jp/navi/index.htm" target="_blank" class="road-link">北の道ナビ →</a></div>
