@@ -11,11 +11,7 @@
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{height:100%;overflow:hidden}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:#263238;font-size:16px;line-height:1.5}
-
-/* 主容器 */
 .app{display:flex;flex-direction:column;height:100%;max-width:500px;margin:0 auto;background:#fff;box-shadow:0 0 20px rgba(0,0,0,.1)}
-
-/* 頂部標題列 */
 .header{background:linear-gradient(135deg,var(--blue),var(--navy));color:#fff;padding:12px 16px;display:flex;align-items:center;gap:10px;flex-shrink:0}
 .header-icon{font-size:28px}
 .header-title{font-size:18px;font-weight:700}
@@ -23,20 +19,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .header-sync{margin-left:auto;background:rgba(255,255,255,.2);border:none;color:#fff;width:36px;height:36px;border-radius:50%;font-size:18px;cursor:pointer}
 .header-sync.loading{animation:spin 1s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
-
-/* 內容區域 */
 .content{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch}
 .page{display:none;padding:16px;padding-bottom:80px;min-height:100%}
 .page.active{display:block}
-
-/* 底部導航 */
 .nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:500px;background:#fff;display:flex;border-top:1px solid #e0e0e0;box-shadow:0 -2px 10px rgba(0,0,0,.05);z-index:100}
 .nav-item{flex:1;padding:8px 4px;text-align:center;color:var(--gray);text-decoration:none;transition:all .2s}
 .nav-item.active{color:var(--blue)}
 .nav-item span{display:block;font-size:22px;margin-bottom:2px}
 .nav-item small{font-size:10px}
-
-/* 卡片樣式 */
 .card{background:#fff;border-radius:16px;margin-bottom:16px;box-shadow:0 2px 12px rgba(0,0,0,.08);overflow:hidden}
 .card-header{padding:14px 16px;color:#fff;background:linear-gradient(135deg,var(--blue),var(--navy))}
 .card-header.purple{background:linear-gradient(135deg,var(--purple),#512da8)}
@@ -45,8 +35,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .card-title{font-size:17px;font-weight:700}
 .card-sub{font-size:13px;opacity:.9;margin-top:2px}
 .card-body{padding:16px}
-
-/* 時間軸 */
 .timeline{position:relative;padding-left:24px}
 .timeline::before{content:'';position:absolute;left:7px;top:4px;bottom:4px;width:2px;background:linear-gradient(var(--ice),var(--blue))}
 .tl-item{position:relative;padding-bottom:16px}
@@ -58,8 +46,32 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .tl-title{font-size:16px;font-weight:600;margin:2px 0}
 .tl-desc{font-size:14px;color:var(--gray)}
 .tl-link{display:inline-flex;align-items:center;gap:4px;margin-top:6px;padding:6px 12px;background:var(--ice);color:var(--blue);text-decoration:none;border-radius:20px;font-size:13px}
+.day-selector{display:flex;gap:8px;overflow-x:auto;padding-bottom:16px;margin-bottom:16px;-webkit-overflow-scrolling:touch}
+.day-selector::-webkit-scrollbar{display:none}
+.day-btn{flex-shrink:0;width:50px;padding:12px 8px;background:#fff;border:2px solid #e0e0e0;border-radius:12px;text-align:center;cursor:pointer}
+.day-btn.active{background:var(--blue);border-color:var(--blue);color:#fff}
+.day-btn-num{font-size:18px;font-weight:700}
+.day-btn-date{font-size:10px;opacity:.7;margin-top:2px}
 
-/* 飯店卡片 */
+/* 景點卡片 - 加強版 */
+.spot-card{background:#fff;border-radius:16px;margin-bottom:16px;box-shadow:0 2px 12px rgba(0,0,0,.08);overflow:hidden}
+.spot-img{width:100%;height:180px;object-fit:cover;background:#e0e0e0}
+.spot-body{padding:16px}
+.spot-region{display:inline-block;background:var(--blue);color:#fff;padding:4px 12px;border-radius:12px;font-size:12px;margin-bottom:10px}
+.spot-name{font-size:20px;font-weight:700}
+.spot-jp{font-size:14px;color:var(--light);margin-top:2px}
+.spot-desc{font-size:15px;color:var(--gray);margin:12px 0;line-height:1.7}
+.spot-info-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0;padding:12px;background:var(--ice);border-radius:12px}
+.spot-info-item{font-size:14px}
+.spot-info-label{color:var(--light);font-size:12px}
+.spot-info-value{font-weight:600;margin-top:2px}
+.spot-tips{background:#fff3e0;border-radius:12px;padding:12px;margin:12px 0}
+.spot-tips-title{font-size:13px;font-weight:600;color:var(--orange);margin-bottom:6px}
+.spot-tips-content{font-size:14px;color:#795548;line-height:1.6}
+.spot-nav-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:14px;background:linear-gradient(135deg,var(--green),#00e676);color:#fff;border:none;border-radius:12px;font-size:16px;font-weight:600;cursor:pointer;margin-top:12px;text-decoration:none}
+.spot-nav-btn:active{transform:scale(.98)}
+
+/* 住宿、交通等其他樣式 */
 .hotel-card{background:#fff;border-radius:16px;margin-bottom:12px;box-shadow:0 2px 12px rgba(0,0,0,.08);overflow:hidden}
 .hotel-header{padding:12px 16px;color:#fff;background:linear-gradient(135deg,var(--purple),#512da8)}
 .hotel-date{font-size:12px;opacity:.9}
@@ -74,16 +86,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .hotel-price-label{font-size:14px;color:var(--gray)}
 .hotel-price-value{font-size:20px;font-weight:700;color:var(--red)}
 
-/* 景點卡片 */
-.spot-card{background:#fff;border-radius:16px;margin-bottom:12px;box-shadow:0 2px 12px rgba(0,0,0,.08);padding:16px}
-.spot-region{display:inline-block;background:var(--blue);color:#fff;padding:3px 10px;border-radius:10px;font-size:12px;margin-bottom:8px}
-.spot-name{font-size:18px;font-weight:700}
-.spot-jp{font-size:13px;color:var(--light);margin-top:2px}
-.spot-desc{font-size:14px;color:var(--gray);margin:10px 0;line-height:1.6}
-.spot-info{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.spot-info-item{font-size:14px;color:var(--gray)}
-
-/* 交通資訊 */
 .trans-box{background:#fff;border-radius:16px;margin-bottom:12px;box-shadow:0 2px 12px rgba(0,0,0,.08);padding:16px}
 .trans-title{font-size:16px;font-weight:700;margin-bottom:12px}
 .trans-row{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #f0f0f0;font-size:15px}
@@ -98,7 +100,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .route-table tfoot{background:var(--navy);color:#fff}
 .route-table td:last-child,.route-table th:last-child{text-align:right}
 
-/* 日語會話 */
 .phrase-tabs{display:flex;gap:8px;overflow-x:auto;padding-bottom:12px;margin-bottom:16px;-webkit-overflow-scrolling:touch}
 .phrase-tabs::-webkit-scrollbar{display:none}
 .phrase-tab{flex-shrink:0;padding:10px 16px;background:#fff;border:2px solid #e0e0e0;border-radius:25px;font-size:14px;color:var(--gray);cursor:pointer;white-space:nowrap}
@@ -115,7 +116,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .phrase-zh{font-size:15px;color:var(--gray)}
 .phrase-play{display:flex;align-items:center;gap:6px;margin-top:10px;color:var(--blue);font-size:14px}
 
-/* 記帳頁面 */
 .budget-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px}
 .budget-card{background:#fff;border-radius:16px;padding:14px 10px;text-align:center;box-shadow:0 2px 12px rgba(0,0,0,.08)}
 .budget-card.total{grid-column:span 3;background:linear-gradient(135deg,var(--blue),var(--navy));color:#fff}
@@ -148,7 +148,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .expense-delete{background:none;border:none;font-size:20px;color:var(--light);padding:8px;cursor:pointer}
 .expense-empty{text-align:center;padding:40px 20px;color:var(--light)}
 
-/* 資訊頁面 */
 .info-card{background:#fff;border-radius:16px;margin-bottom:12px;box-shadow:0 2px 12px rgba(0,0,0,.08);overflow:hidden}
 .info-header{padding:14px 16px;font-size:16px;font-weight:700;background:var(--ice)}
 .info-body{padding:4px 0}
@@ -160,7 +159,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .emergency-box h4{font-size:13px;opacity:.9}
 .emergency-box p{font-size:28px;font-weight:700;margin-top:4px}
 
-/* 設定區塊 */
 .setup-card{background:#fff;border-radius:16px;padding:20px;margin-bottom:16px;box-shadow:0 2px 12px rgba(0,0,0,.08);border:2px dashed var(--orange)}
 .setup-title{font-size:17px;font-weight:700;color:var(--orange);margin-bottom:12px}
 .setup-steps{font-size:14px;color:var(--gray);line-height:2}
@@ -174,12 +172,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .setup-status.success{background:#e8f5e9;color:#2e7d32}
 .setup-status.error{background:#ffebee;color:#c62828}
 
-/* 備案提示 */
 .backup-box{background:linear-gradient(135deg,#fff3e0,#ffe0b2);border:2px solid var(--orange);border-radius:16px;padding:16px;margin-top:16px}
 .backup-title{font-size:15px;font-weight:700;color:var(--orange);margin-bottom:6px}
 .backup-text{font-size:14px;color:#795548}
 
-/* Modal */
 .modal{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.5);z-index:200;justify-content:center;align-items:flex-end}
 .modal.active{display:flex}
 .modal-content{background:#fff;width:100%;max-width:500px;border-radius:24px 24px 0 0;padding:24px;padding-bottom:40px;max-height:90vh;overflow-y:auto}
@@ -193,24 +189,16 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .form-submit{width:100%;padding:16px;background:var(--blue);color:#fff;border:none;border-radius:12px;font-size:17px;font-weight:700;cursor:pointer;margin-top:8px}
 .form-submit:disabled{background:#ccc}
 
-/* Toast */
 .toast{position:fixed;bottom:100px;left:50%;transform:translateX(-50%);background:#333;color:#fff;padding:14px 24px;border-radius:25px;font-size:15px;z-index:300;opacity:0;transition:opacity .3s;pointer-events:none}
 .toast.show{opacity:1}
 .toast.success{background:#4caf50}
 .toast.error{background:#f44336}
 
-/* Day 選擇器 */
-.day-selector{display:flex;gap:8px;overflow-x:auto;padding-bottom:16px;margin-bottom:16px;-webkit-overflow-scrolling:touch}
-.day-selector::-webkit-scrollbar{display:none}
-.day-btn{flex-shrink:0;width:50px;padding:12px 8px;background:#fff;border:2px solid #e0e0e0;border-radius:12px;text-align:center;cursor:pointer}
-.day-btn.active{background:var(--blue);border-color:var(--blue);color:#fff}
-.day-btn-num{font-size:18px;font-weight:700}
-.day-btn-date{font-size:10px;opacity:.7;margin-top:2px}
+@media(max-width:400px){.budget-grid{grid-template-columns:repeat(2,1fr)}.budget-card.total{grid-column:span 2}}
 </style>
 </head>
 <body>
 <div class="app">
-  <!-- 頂部標題 -->
   <header class="header">
     <div class="header-icon">🦊</div>
     <div>
@@ -220,9 +208,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
     <button class="header-sync" id="header-sync" onclick="syncData()" title="同步資料">🔄</button>
   </header>
 
-  <!-- 內容區域 -->
   <div class="content">
-    <!-- 行程頁 -->
     <div class="page active" id="page-itinerary">
       <div class="day-selector" id="day-selector"></div>
       <div id="day-content"></div>
@@ -232,22 +218,15 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
       </div>
     </div>
 
-    <!-- 住宿頁 -->
     <div class="page" id="page-hotels"></div>
-
-    <!-- 景點頁 -->
     <div class="page" id="page-spots"></div>
-
-    <!-- 交通頁 -->
     <div class="page" id="page-transport"></div>
 
-    <!-- 會話頁 -->
     <div class="page" id="page-phrases">
       <div class="phrase-tabs" id="phrase-tabs"></div>
       <div id="phrases-list"></div>
     </div>
 
-    <!-- 記帳頁 -->
     <div class="page" id="page-budget">
       <div id="setup-section"></div>
       <div class="budget-grid" id="budget-grid"></div>
@@ -255,20 +234,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
         <div class="expense-title">📝 消費記錄</div>
         <button class="expense-add-btn" onclick="openModal()">＋ 新增</button>
       </div>
-      <div class="expense-status" id="conn-status">
-        <span>⏳</span> 未連線
-      </div>
+      <div class="expense-status" id="conn-status"><span>⏳</span> 未連線</div>
       <div class="expense-cats" id="expense-cats"></div>
-      <div class="expense-list" id="expense-list">
-        <div class="expense-empty">請先設定 Google Sheets 連線</div>
-      </div>
+      <div class="expense-list" id="expense-list"><div class="expense-empty">請先設定 Google Sheets 連線</div></div>
     </div>
 
-    <!-- 資訊頁 -->
     <div class="page" id="page-info"></div>
   </div>
 
-  <!-- 底部導航 -->
   <nav class="nav">
     <a class="nav-item active" data-page="itinerary"><span>📅</span><small>行程</small></a>
     <a class="nav-item" data-page="hotels"><span>🏨</span><small>住宿</small></a>
@@ -280,7 +253,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
   </nav>
 </div>
 
-<!-- 新增消費 Modal -->
 <div class="modal" id="modal">
   <div class="modal-content">
     <div class="modal-header">
@@ -288,49 +260,19 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
       <button class="modal-close" onclick="closeModal()">×</button>
     </div>
     <form onsubmit="addExpense(event)">
-      <div class="form-group">
-        <label class="form-label">日期</label>
-        <input type="date" class="form-input" id="f-date" required>
-      </div>
-      <div class="form-group">
-        <label class="form-label">分類</label>
-        <select class="form-select" id="f-cat">
-          <option value="flight">✈️ 機票</option>
-          <option value="hotel">🏨 住宿</option>
-          <option value="car">🚗 租車/油費</option>
-          <option value="food">🍽️ 餐飲</option>
-          <option value="ticket">🎫 門票</option>
-          <option value="shopping">🛍️ 購物</option>
-          <option value="other">📦 其他</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label class="form-label">說明</label>
-        <input type="text" class="form-input" id="f-desc" placeholder="例：旭山動物園門票" required>
-      </div>
-      <div class="form-group">
-        <label class="form-label">幣別</label>
-        <select class="form-select" id="f-cur">
-          <option value="TWD">NT$ 新台幣</option>
-          <option value="JPY">¥ 日圓</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label class="form-label">金額</label>
-        <input type="number" class="form-input" id="f-amt" placeholder="0" required>
-      </div>
+      <div class="form-group"><label class="form-label">日期</label><input type="date" class="form-input" id="f-date" required></div>
+      <div class="form-group"><label class="form-label">分類</label><select class="form-select" id="f-cat"><option value="flight">✈️ 機票</option><option value="hotel">🏨 住宿</option><option value="car">🚗 租車/油費</option><option value="food">🍽️ 餐飲</option><option value="ticket">🎫 門票</option><option value="shopping">🛍️ 購物</option><option value="other">📦 其他</option></select></div>
+      <div class="form-group"><label class="form-label">說明</label><input type="text" class="form-input" id="f-desc" placeholder="例：旭山動物園門票" required></div>
+      <div class="form-group"><label class="form-label">幣別</label><select class="form-select" id="f-cur"><option value="TWD">NT$ 新台幣</option><option value="JPY">¥ 日圓</option></select></div>
+      <div class="form-group"><label class="form-label">金額</label><input type="number" class="form-input" id="f-amt" placeholder="0" required></div>
       <button type="submit" class="form-submit" id="submit-btn">新增消費</button>
     </form>
   </div>
 </div>
 
-<!-- Toast -->
 <div class="toast" id="toast"></div>
 
 <script>
-// ========================================
-// 資料定義
-// ========================================
 const STORAGE_KEY = 'hokkaido2026_api';
 let API_URL = localStorage.getItem(STORAGE_KEY) || '';
 let expenses = [];
@@ -345,14 +287,14 @@ const itinerary = [
     {time:'06:20',title:'✈️ 台北出發',desc:'虎航 IT234'},
     {time:'10:55',title:'🛬 抵達新千歲'},
     {time:'11:30',title:'🍜 機場午餐',type:'meal'},
-    {time:'12:30',title:'🚗 取車出發',desc:'北海道女婿｜RAV4',link:'https://www.google.com/maps/dir/新千歳空港/富良野'},
-    {time:'15:40',title:'🧚 精靈露台',desc:'森林夢幻小木屋'},
+    {time:'12:30',title:'🚗 取車出發',desc:'北海道女婿｜RAV4'},
+    {time:'15:40',title:'🧚 精靈露台',desc:'森林夢幻小木屋',mapcode:'919 553 581'},
     {time:'17:30',title:'🏨 富良野拉漁村',desc:'溫泉、含早晚餐',type:'hotel'}
   ]},
   {day:2,date:'1/29(四)',title:'美瑛・旭山動物園',km:'50km',items:[
     {time:'07:40',title:'🍳 飯店早餐',type:'meal'},
     {time:'09:30',title:'🌲 美瑛名樹巡禮',desc:'聖誕樹、Ken與Mary之樹'},
-    {time:'11:00',title:'🐧 旭山動物園',desc:'企鵝散步 11:00/14:30'},
+    {time:'11:00',title:'🐧 旭山動物園',desc:'企鵝散步 11:00/14:30',mapcode:'79 358 871'},
     {time:'16:00',title:'🍖 成吉思汗烤肉',type:'meal'},
     {time:'晚上',title:'🛍️ 平和通買物公園',desc:'DCM買鞋釘'},
     {time:'住宿',title:'🏨 旭川客樂森',desc:'溫泉',type:'hotel'}
@@ -361,19 +303,19 @@ const itinerary = [
     {time:'07:40',title:'🍳 飯店早餐',type:'meal'},
     {time:'09:00',title:'🚗 出發層雲峽',desc:'約1.5小時'},
     {time:'14:00',title:'🏨 層雲峽朝陽亭',desc:'溫泉、含早晚餐',type:'hotel'},
-    {time:'17:00',title:'🧊 層雲峽冰瀑祭',desc:'壯觀冰雕、夜間點燈'},
+    {time:'17:00',title:'🧊 層雲峽冰瀑祭',desc:'壯觀冰雕、夜間點燈',mapcode:'623 204 635'},
     {time:'20:00',title:'🎆 煙火表演'}
   ]},
   {day:4,date:'1/31(六)',title:'北狐牧場・阿寒湖',km:'156km',items:[
     {time:'07:40',title:'🍳 飯店早餐',type:'meal'},
-    {time:'10:40',title:'🦊 北狐牧場',desc:'近距離看狐狸！¥500'},
+    {time:'10:40',title:'🦊 北狐牧場',desc:'近距離看狐狸！¥500',mapcode:'402 600 307'},
     {time:'14:30',title:'🏨 新阿寒飯店',desc:'溫泉、含早晚餐',type:'hotel'},
     {time:'下午',title:'🏔️ 阿寒湖散策',desc:'湖畔、愛努村落'}
   ]},
   {day:5,date:'2/1(日)',title:'阿寒湖・十勝川',km:'120km',items:[
     {time:'08:30',title:'🎣 阿寒湖冰上釣魚',desc:'冬季限定！'},
     {time:'12:00',title:'🐷 帶廣豬肉蓋飯',type:'meal'},
-    {time:'14:00',title:'🍰 六花亭',desc:'買伴手禮'},
+    {time:'14:00',title:'🍰 六花亭',desc:'買伴手禮',mapcode:'124 593 584'},
     {time:'16:00',title:'🏨 十勝川Tetra',desc:'浴場、含早餐',type:'hotel'},
     {time:'19:00',title:'✨ 十勝川彩燈祭'}
   ]},
@@ -381,7 +323,7 @@ const itinerary = [
     {time:'07:20',title:'🍳 飯店早餐',type:'meal'},
     {time:'08:40',title:'🚗 出發札幌',desc:'約3小時'},
     {time:'15:00',title:'🏨 札幌Vessel Inn',desc:'待訂',type:'hotel'},
-    {time:'下午',title:'❄️ 札幌雪祭',desc:'大通公園'},
+    {time:'下午',title:'❄️ 札幌雪祭',desc:'大通公園',mapcode:'9 522 865'},
     {time:'18:00',title:'🦀 薄野螃蟹吃到飽',type:'meal'}
   ]},
   {day:7,date:'2/3(二)',title:'札幌・千歲',km:'54km',items:[
@@ -397,7 +339,107 @@ const itinerary = [
   ]}
 ];
 
-// 住宿資料
+// 景點資料（加強版）
+const spots = [
+  {
+    region:'富良野',
+    name:'🧚 精靈露台',
+    jp:'ニングルテラス',
+    img:'https://www.princehotels.co.jp/shinfurano/facility/ningle_terrace/images/mainvisual_pc.jpg',
+    desc:'森林中約15間夢幻小木屋，由脚本家倉本聰作品命名。「ニングル」在愛努語中意指「森林小精靈」。每間小屋都是獨立工藝品店，販售手工蠟燭、銀飾、木雕等。冬季夜間點燈後如童話世界，是北海道必訪浪漫景點。',
+    address:'北海道富良野市中御料（新富良野王子大飯店敷地內）',
+    mapcode:'919 553 581',
+    hours:'12:00-20:45',
+    price:'免費入場',
+    tips:'建議下午4點後來，可同時拍到日景和夜間點燈。天冷記得保暖！'
+  },
+  {
+    region:'美瑛',
+    name:'🌲 美瑛名樹巡禮',
+    jp:'美瑛の丘',
+    img:'https://www.biei-hokkaido.jp/images/shared/christmastree_01.jpg',
+    desc:'美瑛丘陵地形上的獨立樹木，因廣告而聞名。「聖誕樹」是獨立於雪原上的雲杉，「Ken與Mary之樹」因日產汽車廣告得名，「七星之樹」則是七星香菸包裝的取景地。冬季白雪覆蓋的景色最為夢幻。',
+    address:'北海道上川郡美瑛町',
+    mapcode:'389 071 727',
+    hours:'全天開放',
+    price:'免費',
+    tips:'樹木都在農地私有地附近，請勿進入農地拍照。冬季道路濕滑注意安全駕駛。'
+  },
+  {
+    region:'旭川',
+    name:'🐧 旭山動物園',
+    jp:'あさひやまどうぶつえん',
+    img:'https://www.city.asahikawa.hokkaido.jp/asahiyamazoo/2200/images/penguintop_winter.jpg',
+    desc:'日本最北端的動物園，以「行動展示」聞名。園方設計讓動物展現自然行為，如企鵝在水下隧道「飛翔」、北極熊潛水游泳等。冬季限定的「企鵝散步」是最大亮點，胖嘟嘟的企鵝搖搖擺擺走在雪地上超療癒！',
+    address:'北海道旭川市東旭川町倉沼',
+    mapcode:'79 358 871',
+    hours:'冬季 10:30-15:30（最後入場15:00）',
+    price:'成人 ¥1,000・中學生以下免費',
+    tips:'企鵝散步時間：11:00、14:30（建議提前30分鐘卡位）。禁止使用閃光燈！'
+  },
+  {
+    region:'層雲峽',
+    name:'🧊 層雲峽冰瀑祭',
+    jp:'層雲峡温泉氷瀑まつり',
+    img:'https://sounkyo.net/hyoubaku/img/main01.jpg',
+    desc:'北海道三大冬祭之一！利用石狩川河床約1萬平方公尺的場地，展示約30座大小冰雕。白天冰雕呈現神秘藍光，夜晚七彩燈光照射更加夢幻。每晚20:00還有煙火表演，在極寒中綻放的花火格外震撼。',
+    address:'北海道上川郡上川町層雲峽溫泉',
+    mapcode:'623 204 635',
+    hours:'17:00-21:30',
+    price:'入場 ¥1,000',
+    tips:'會場地面非常滑！務必穿防滑雪靴。氣溫可能-20°C以下，做好保暖。'
+  },
+  {
+    region:'北見',
+    name:'🦊 北狐牧場',
+    jp:'北きつね牧場',
+    img:'https://kitakitsune-farm.com/wp-content/uploads/2023/12/pc-img04.jpg',
+    desc:'約60隻北海道狐狸在6萬平方公尺的園區內自由放養。與動物園不同，這裡的狐狸不怕人，會主動靠近遊客腳邊。冬季毛茸茸的「冬毛」狀態最可愛！園區內還有蝦夷狸貓一起生活。',
+    address:'北海道北見市留辺蘂町花丘52-1',
+    mapcode:'402 600 307',
+    hours:'冬季 9:00-16:00（最後入場15:30）',
+    price:'成人 ¥500・中學生 ¥400・小學生 ¥300',
+    tips:'禁止觸摸狐狸和餵食。狐狸有野性，請勿蹲下或做突然動作。'
+  },
+  {
+    region:'阿寒湖',
+    name:'🎣 阿寒湖冰上釣魚',
+    jp:'わかさぎ釣り',
+    img:'https://www.tsuruga.com/activity/images/wakasagi_main.jpg',
+    desc:'冬季限定體驗！在結冰的阿寒湖面上鑿洞釣西太公魚（わかさぎ）。租借釣具、帳篷，工作人員會教學。釣到的魚可以現場油炸品嚐，熱騰騰的炸魚在極寒中特別美味！',
+    address:'北海道釧路市阿寒町阿寒湖溫泉',
+    mapcode:'739 341 772',
+    hours:'約 8:00-16:00',
+    price:'約 ¥1,500-2,000（含釣具租借）',
+    tips:'湖上帳篷內有暖爐但還是很冷，建議穿最保暖的衣物。'
+  },
+  {
+    region:'帶廣',
+    name:'🍰 六花亭本店',
+    jp:'六花亭',
+    img:'https://www.rokkatei.co.jp/img/shop/obihiro_honten/main.jpg',
+    desc:'北海道最知名的甜點品牌！本店限定的「サクサクパイ」（酥脆派）只有這裡吃得到。必買伴手禮：奶油葡萄夾心餅乾、マルセイバターサンド。2樓有咖啡廳可以悠閒品嚐。',
+    address:'北海道帶廣市西2条南9丁目6番地',
+    mapcode:'124 593 584',
+    hours:'9:00-18:00',
+    price:'伴手禮約 ¥500-2,000',
+    tips:'本店限定的酥脆派賞味期限只有3小時！記得現場吃。'
+  },
+  {
+    region:'札幌',
+    name:'❄️ 札幌雪祭',
+    jp:'さっぽろ雪まつり',
+    img:'https://www.snowfes.com/img/top/main_odori.jpg',
+    desc:'日本最大規模的雪祭！大通公園會場展示巨型雪雕，有些高達15公尺。夜間點燈後更加壯觀。薄野會場則有晶瑩剔透的冰雕。Tsudome會場可以玩雪上滑梯等設施，適合親子同遊。',
+    address:'北海道札幌市中央區大通公園',
+    mapcode:'9 522 865',
+    hours:'大通會場全天開放・Tsudome 9:00-17:00',
+    price:'免費入場',
+    tips:'2026年預計2/4-2/11舉辦，我們2/2抵達剛好可看！人潮超多，相機記得充飽電。'
+  }
+];
+
+// 住宿、會話、資訊等資料（與之前相同）
 const hotels = [
   {date:'1/28',nights:'1晚',name:'富良野拉漁村酒店',location:'Furano la terre',room:'4人榻榻米',booking:'EZ訂房',tags:['♨️溫泉','🍳早餐','🍽️晚餐'],price:7000},
   {date:'1/29',nights:'1晚',name:'旭川客樂森酒店',location:'旭川Grand Hotel',room:'2間房',booking:'Agoda',extra:'早餐¥1,760×2+停車¥800',tags:['♨️溫泉','🅿️付費停車'],price:4643},
@@ -408,19 +450,6 @@ const hotels = [
   {date:'2/3',nights:'1晚',name:'千歲悠遊館',location:'千歲近機場',room:'4人上下床',booking:'EZ訂房',tags:['❌無早餐'],no:true,price:4033}
 ];
 
-// 景點資料
-const spots = [
-  {region:'富良野',name:'🧚 精靈露台',jp:'ニングルテラス',desc:'森林中15間夢幻小木屋，冬季夜間點燈如童話世界。',info:['🕐 12:00-20:45','💴 免費']},
-  {region:'美瑛',name:'🌲 美瑛名樹巡禮',jp:'美瑛の丘',desc:'聖誕樹、Ken與Mary之樹、七星之樹，雪白丘陵絕美。',info:['🕐 全天開放','💴 免費']},
-  {region:'旭川',name:'🐧 旭山動物園',jp:'あさひやまどうぶつえん',desc:'日本最北動物園！冬季限定企鵝散步超可愛。',info:['🕐 10:30-15:30','💴 ¥1,000']},
-  {region:'層雲峽',name:'🧊 層雲峽冰瀑祭',jp:'氷瀑まつり',desc:'壯觀冰雕、夜間七彩燈光，北海道三大冬祭之一。',info:['🕐 17:00-21:30','🎆 煙火20:00']},
-  {region:'北見',name:'🦊 北狐牧場',jp:'北きつね牧場',desc:'近距離接觸可愛狐狸！冬季毛茸茸超萌。',info:['🕐 09:00-16:00','💴 ¥500']},
-  {region:'阿寒湖',name:'🎣 冰上釣魚',jp:'わかさぎ釣り',desc:'冬季限定！在結冰湖面釣西太公魚，可現場油炸。',info:['🕐 08:00-16:00','💴 約¥1,500']},
-  {region:'帶廣',name:'🍰 六花亭本店',jp:'六花亭',desc:'北海道知名甜點，必買奶油葡萄夾心餅乾。',info:['🕐 09:00-18:00','🍪 必買伴手禮']},
-  {region:'札幌',name:'❄️ 札幌雪祭',jp:'さっぽろ雪まつり',desc:'日本最大雪祭！大通公園巨型雪雕。',info:['📍 大通公園','💴 免費']}
-];
-
-// 日語會話
 const phrases = [
   {cat:'driving',jp:'ガソリンスタンドはどこですか？',ro:'Gasorin sutando wa doko desu ka?',zh:'加油站在哪裡？'},
   {cat:'driving',jp:'レギュラー満タンでお願いします',ro:'Regyurā mantan de onegai shimasu',zh:'請加滿一般汽油'},
@@ -443,9 +472,7 @@ const phrases = [
   {cat:'emergency',jp:'気分が悪いです',ro:'Kibun ga warui desu',zh:'我不舒服'}
 ];
 
-// ========================================
 // 初始化
-// ========================================
 function init() {
   setupNavigation();
   renderDaySelector();
@@ -466,9 +493,6 @@ function init() {
   }
 }
 
-// ========================================
-// 導航功能
-// ========================================
 function setupNavigation() {
   document.querySelectorAll('.nav-item').forEach(item => {
     item.addEventListener('click', () => {
@@ -481,9 +505,7 @@ function setupNavigation() {
   });
 }
 
-// ========================================
 // 行程頁面
-// ========================================
 function renderDaySelector() {
   const container = document.getElementById('day-selector');
   container.innerHTML = itinerary.map(d => `
@@ -519,7 +541,7 @@ function renderDay(day) {
               <div class="tl-time">${item.time}</div>
               <div class="tl-title">${item.title}</div>
               ${item.desc ? `<div class="tl-desc">${item.desc}</div>` : ''}
-              ${item.link ? `<a href="${item.link}" target="_blank" class="tl-link">📍 查看地圖</a>` : ''}
+              ${item.mapcode ? `<a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(item.title.replace(/[🧚🐧🧊🦊🍰❄️🌲🎣✨]/g,''))}" target="_blank" class="tl-link">📍 導航前往</a>` : ''}
             </div>
           `).join('')}
         </div>
@@ -528,9 +550,7 @@ function renderDay(day) {
   `;
 }
 
-// ========================================
 // 住宿頁面
-// ========================================
 function renderHotels() {
   const container = document.getElementById('page-hotels');
   container.innerHTML = hotels.map(h => `
@@ -540,45 +560,41 @@ function renderHotels() {
         <div class="hotel-name">${h.name}</div>
       </div>
       <div class="hotel-body">
-        <div class="hotel-info">
-          📍 ${h.location}<br>
-          🛏️ ${h.room}<br>
-          📱 ${h.booking}
-          ${h.extra ? `<br>💴 ${h.extra}` : ''}
-        </div>
-        <div class="hotel-tags">
-          ${h.tags.map(t => `<span class="hotel-tag ${h.warn ? 'warn' : ''} ${h.no ? 'no' : ''}">${t}</span>`).join('')}
-        </div>
-        <div class="hotel-price">
-          <span class="hotel-price-label">${h.warn ? '預估房價' : '房價'}</span>
-          <span class="hotel-price-value">NT$${h.price.toLocaleString()}</span>
-        </div>
+        <div class="hotel-info">📍 ${h.location}<br>🛏️ ${h.room}<br>📱 ${h.booking}${h.extra ? `<br>💴 ${h.extra}` : ''}</div>
+        <div class="hotel-tags">${h.tags.map(t => `<span class="hotel-tag ${h.warn ? 'warn' : ''} ${h.no ? 'no' : ''}">${t}</span>`).join('')}</div>
+        <div class="hotel-price"><span class="hotel-price-label">${h.warn ? '預估房價' : '房價'}</span><span class="hotel-price-value">NT$${h.price.toLocaleString()}</span></div>
       </div>
     </div>
   `).join('');
 }
 
-// ========================================
-// 景點頁面
-// ========================================
+// 景點頁面（加強版）
 function renderSpots() {
   const container = document.getElementById('page-spots');
   container.innerHTML = spots.map(s => `
     <div class="spot-card">
-      <span class="spot-region">${s.region}</span>
-      <div class="spot-name">${s.name}</div>
-      <div class="spot-jp">${s.jp}</div>
-      <div class="spot-desc">${s.desc}</div>
-      <div class="spot-info">
-        ${s.info.map(i => `<span class="spot-info-item">${i}</span>`).join('')}
+      <img class="spot-img" src="${s.img}" alt="${s.name}" onerror="this.src='https://via.placeholder.com/400x180/e3f2fd/1976d2?text=${encodeURIComponent(s.name)}'">
+      <div class="spot-body">
+        <span class="spot-region">${s.region}</span>
+        <div class="spot-name">${s.name}</div>
+        <div class="spot-jp">${s.jp}</div>
+        <div class="spot-desc">${s.desc}</div>
+        <div class="spot-info-grid">
+          <div class="spot-info-item"><div class="spot-info-label">營業時間</div><div class="spot-info-value">${s.hours}</div></div>
+          <div class="spot-info-item"><div class="spot-info-label">費用</div><div class="spot-info-value">${s.price}</div></div>
+          <div class="spot-info-item" style="grid-column:span 2"><div class="spot-info-label">地址</div><div class="spot-info-value">${s.address}</div></div>
+        </div>
+        <div class="spot-tips">
+          <div class="spot-tips-title">💡 小提醒</div>
+          <div class="spot-tips-content">${s.tips}</div>
+        </div>
+        <a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(s.address)}" target="_blank" class="spot-nav-btn">📍 開啟 Google Maps 導航</a>
       </div>
     </div>
   `).join('');
 }
 
-// ========================================
 // 交通頁面
-// ========================================
 function renderTransport() {
   const container = document.getElementById('page-transport');
   container.innerHTML = `
@@ -619,21 +635,10 @@ function renderTransport() {
   `;
 }
 
-// ========================================
 // 會話頁面
-// ========================================
 function renderPhraseTabs() {
-  const tabs = [
-    {id:'all',label:'全部'},
-    {id:'driving',label:'🚗 自駕'},
-    {id:'restaurant',label:'🍽️ 餐廳'},
-    {id:'onsen',label:'♨️ 溫泉'},
-    {id:'shopping',label:'🛍️ 購物'},
-    {id:'emergency',label:'🆘 緊急'}
-  ];
-  document.getElementById('phrase-tabs').innerHTML = tabs.map(t => 
-    `<div class="phrase-tab ${t.id === 'all' ? 'active' : ''}" onclick="filterPhrases('${t.id}')">${t.label}</div>`
-  ).join('');
+  const tabs = [{id:'all',label:'全部'},{id:'driving',label:'🚗自駕'},{id:'restaurant',label:'🍽️餐廳'},{id:'onsen',label:'♨️溫泉'},{id:'shopping',label:'🛍️購物'},{id:'emergency',label:'🆘緊急'}];
+  document.getElementById('phrase-tabs').innerHTML = tabs.map(t => `<div class="phrase-tab ${t.id === 'all' ? 'active' : ''}" onclick="filterPhrases('${t.id}')">${t.label}</div>`).join('');
 }
 
 function filterPhrases(cat) {
@@ -665,31 +670,20 @@ function speak(text) {
   }
 }
 
-// ========================================
 // 記帳頁面
-// ========================================
 function renderSetup() {
   document.getElementById('setup-section').innerHTML = `
     <div class="setup-card">
       <div class="setup-title">⚙️ 設定 Google Sheets</div>
-      <div class="setup-steps">
-        1. 建立 Google Sheet<br>
-        2. 擴充功能 → Apps Script<br>
-        3. 貼上程式碼並部署<br>
-        4. 將網址貼到下方
-      </div>
+      <div class="setup-steps">1. 建立 Google Sheet<br>2. 擴充功能 → Apps Script<br>3. 貼上程式碼並部署<br>4. 將網址貼到下方</div>
       <input type="text" class="setup-input" id="api-url" placeholder="貼上 Apps Script 網址...">
-      <div class="setup-btns">
-        <button class="setup-btn primary" onclick="saveApiUrl()">💾 儲存</button>
-        <button class="setup-btn secondary" onclick="testConnection()">🔗 測試</button>
-      </div>
+      <div class="setup-btns"><button class="setup-btn primary" onclick="saveApiUrl()">💾 儲存</button><button class="setup-btn secondary" onclick="testConnection()">🔗 測試</button></div>
       <div class="setup-status" id="setup-status" style="display:none"></div>
     </div>
   `;
 }
 
 function renderBudgetPage() {
-  // 預算卡片
   document.getElementById('budget-grid').innerHTML = `
     <div class="budget-card"><div class="budget-icon">✈️</div><div class="budget-label">機票</div><div class="budget-value" id="b-flight">NT$0</div></div>
     <div class="budget-card"><div class="budget-icon">🏨</div><div class="budget-label">住宿</div><div class="budget-value" id="b-hotel">NT$0</div></div>
@@ -698,20 +692,8 @@ function renderBudgetPage() {
     <div class="budget-card"><div class="budget-icon">🎫</div><div class="budget-label">門票</div><div class="budget-value" id="b-ticket">NT$0</div></div>
     <div class="budget-card total"><div class="budget-icon">💳</div><div class="budget-label">總計(台幣)</div><div class="budget-value" id="b-total">NT$0</div></div>
   `;
-  
-  // 分類篩選
-  const cats = [
-    {id:'all',label:'全部',bg:'#e3f2fd',color:'#1976d2'},
-    {id:'flight',label:'✈️',bg:'#e3f2fd',color:'#1976d2'},
-    {id:'hotel',label:'🏨',bg:'#f3e5f5',color:'#7b1fa2'},
-    {id:'car',label:'🚗',bg:'#e8f5e9',color:'#2e7d32'},
-    {id:'food',label:'🍽️',bg:'#fff3e0',color:'#ef6c00'},
-    {id:'ticket',label:'🎫',bg:'#fce4ec',color:'#c2185b'},
-    {id:'shopping',label:'🛍️',bg:'#e0f7fa',color:'#00838f'}
-  ];
-  document.getElementById('expense-cats').innerHTML = cats.map(c => 
-    `<span class="expense-cat ${c.id === 'all' ? 'active' : ''}" style="background:${c.bg};color:${c.color}" onclick="filterExpenses('${c.id}')">${c.label}</span>`
-  ).join('');
+  const cats = [{id:'all',label:'全部',bg:'#e3f2fd',color:'#1976d2'},{id:'flight',label:'✈️',bg:'#e3f2fd',color:'#1976d2'},{id:'hotel',label:'🏨',bg:'#f3e5f5',color:'#7b1fa2'},{id:'car',label:'🚗',bg:'#e8f5e9',color:'#2e7d32'},{id:'food',label:'🍽️',bg:'#fff3e0',color:'#ef6c00'},{id:'ticket',label:'🎫',bg:'#fce4ec',color:'#c2185b'},{id:'shopping',label:'🛍️',bg:'#e0f7fa',color:'#00838f'}];
+  document.getElementById('expense-cats').innerHTML = cats.map(c => `<span class="expense-cat ${c.id === 'all' ? 'active' : ''}" style="background:${c.bg};color:${c.color}" onclick="filterExpenses('${c.id}')">${c.label}</span>`).join('');
 }
 
 function filterExpenses(cat) {
@@ -725,20 +707,12 @@ function renderExpenses() {
   const filtered = currentExpenseFilter === 'all' ? expenses : expenses.filter(e => e.category === currentExpenseFilter);
   const icons = {flight:'✈️',hotel:'🏨',car:'🚗',food:'🍽️',ticket:'🎫',shopping:'🛍️',other:'📦'};
   const colors = {flight:'#e3f2fd',hotel:'#f3e5f5',car:'#e8f5e9',food:'#fff3e0',ticket:'#fce4ec',shopping:'#e0f7fa',other:'#eceff1'};
-  
-  if (filtered.length === 0) {
-    document.getElementById('expense-list').innerHTML = '<div class="expense-empty">沒有消費記錄</div>';
-    return;
-  }
-  
+  if (filtered.length === 0) { document.getElementById('expense-list').innerHTML = '<div class="expense-empty">沒有消費記錄</div>'; return; }
   document.getElementById('expense-list').innerHTML = filtered.map(e => `
     <div class="expense-item">
       <div class="expense-left">
         <div class="expense-icon" style="background:${colors[e.category] || '#eceff1'}">${icons[e.category] || '📦'}</div>
-        <div class="expense-info">
-          <div class="expense-desc">${e.description}</div>
-          <div class="expense-date">${e.date}</div>
-        </div>
+        <div class="expense-info"><div class="expense-desc">${e.description}</div><div class="expense-date">${e.date}</div></div>
       </div>
       <div class="expense-amount ${e.currency.toLowerCase()}">${e.currency === 'TWD' ? 'NT$' : '¥'}${Number(e.amount).toLocaleString()}</div>
       <button class="expense-delete" onclick="deleteExpense('${e.id}')">🗑️</button>
@@ -749,20 +723,10 @@ function renderExpenses() {
 function updateBudget() {
   const rate = 0.21;
   let t = {flight:0,hotel:0,car:0,food:0,ticket:0,shopping:0,other:0};
-  
-  expenses.forEach(e => {
-    const amt = e.currency === 'TWD' ? Number(e.amount) : Math.round(Number(e.amount) * rate);
-    if (t[e.category] !== undefined) t[e.category] += amt;
-  });
-  
+  expenses.forEach(e => { const amt = e.currency === 'TWD' ? Number(e.amount) : Math.round(Number(e.amount) * rate); if (t[e.category] !== undefined) t[e.category] += amt; });
   let carJPY = 0;
-  expenses.filter(e => e.category === 'car').forEach(e => {
-    if (e.currency === 'JPY') carJPY += Number(e.amount);
-    else carJPY += Math.round(Number(e.amount) / rate);
-  });
-  
+  expenses.filter(e => e.category === 'car').forEach(e => { if (e.currency === 'JPY') carJPY += Number(e.amount); else carJPY += Math.round(Number(e.amount) / rate); });
   const total = Object.values(t).reduce((a, b) => a + b, 0);
-  
   document.getElementById('b-flight').textContent = `NT$${t.flight.toLocaleString()}`;
   document.getElementById('b-hotel').textContent = `NT$${t.hotel.toLocaleString()}`;
   document.getElementById('b-car').textContent = `¥${carJPY.toLocaleString()}`;
@@ -771,71 +735,21 @@ function updateBudget() {
   document.getElementById('b-total').textContent = `NT$${total.toLocaleString()}`;
 }
 
-// ========================================
 // 資訊頁面
-// ========================================
 function renderInfo() {
   document.getElementById('page-info').innerHTML = `
-    <div class="info-card">
-      <div class="info-header">🚨 緊急電話</div>
-      <div class="emergency-box"><h4>警察</h4><p>110</p></div>
-      <div class="emergency-box" style="background:#ff6d00"><h4>消防/救護車</h4><p>119</p></div>
-      <div class="info-body">
-        <div class="info-row"><span class="info-label">駐日代表處</span><span class="info-value">03-2280-7917</span></div>
-      </div>
-    </div>
-    <div class="info-card">
-      <div class="info-header">🌡️ 天氣參考</div>
-      <div class="info-body">
-        <div class="info-row"><span class="info-label">富良野/美瑛</span><span class="info-value">-15~-5°C</span></div>
-        <div class="info-row"><span class="info-label">旭川</span><span class="info-value">-12~-3°C</span></div>
-        <div class="info-row"><span class="info-label">層雲峽</span><span class="info-value">-18~-8°C</span></div>
-        <div class="info-row"><span class="info-label">阿寒湖</span><span class="info-value">-20~-10°C</span></div>
-        <div class="info-row"><span class="info-label">札幌</span><span class="info-value">-8~0°C</span></div>
-      </div>
-    </div>
-    <div class="info-card">
-      <div class="info-header">💡 實用資訊</div>
-      <div class="info-body">
-        <div class="info-row"><span class="info-label">匯率參考</span><span class="info-value">¥100≈NT$21</span></div>
-        <div class="info-row"><span class="info-label">電壓</span><span class="info-value">100V 雙扁插</span></div>
-        <div class="info-row"><span class="info-label">時差</span><span class="info-value">比台灣快1小時</span></div>
-        <div class="info-row"><span class="info-label">免稅條件</span><span class="info-value">同店滿¥5,000</span></div>
-      </div>
-    </div>
-    <div class="info-card">
-      <div class="info-header">🚗 雪地駕駛注意</div>
-      <div class="info-body">
-        <div class="info-row"><span class="info-label">速度</span><span class="info-value">比平常慢20-30%</span></div>
-        <div class="info-row"><span class="info-label">煞車</span><span class="info-value">提早輕踩避免急煞</span></div>
-        <div class="info-row"><span class="info-label">車距</span><span class="info-value">保持3倍以上距離</span></div>
-        <div class="info-row"><span class="info-label">停車</span><span class="info-value">不放手煞車(會結冰)</span></div>
-        <div class="info-row"><span class="info-label">加油</span><span class="info-value">選「レギュラー」</span></div>
-      </div>
-    </div>
-    <div class="info-card">
-      <div class="info-header">📝 小提醒</div>
-      <div class="info-body" style="padding:16px">
-        <div style="font-size:15px;line-height:2;color:#546e7a">
-          🔸 便利商店24小時可買熱食、提款<br>
-          🔸 泡溫泉前先淋浴，毛巾不入池<br>
-          🔸 餐廳用餐無需給小費<br>
-          🔸 DCM可買鞋釘（防滑用）
-        </div>
-      </div>
-    </div>
+    <div class="info-card"><div class="info-header">🚨 緊急電話</div><div class="emergency-box"><h4>警察</h4><p>110</p></div><div class="emergency-box" style="background:#ff6d00"><h4>消防/救護車</h4><p>119</p></div><div class="info-body"><div class="info-row"><span class="info-label">駐日代表處</span><span class="info-value">03-2280-7917</span></div></div></div>
+    <div class="info-card"><div class="info-header">🌡️ 天氣參考</div><div class="info-body"><div class="info-row"><span class="info-label">富良野/美瑛</span><span class="info-value">-15~-5°C</span></div><div class="info-row"><span class="info-label">旭川</span><span class="info-value">-12~-3°C</span></div><div class="info-row"><span class="info-label">層雲峽</span><span class="info-value">-18~-8°C</span></div><div class="info-row"><span class="info-label">阿寒湖</span><span class="info-value">-20~-10°C</span></div><div class="info-row"><span class="info-label">札幌</span><span class="info-value">-8~0°C</span></div></div></div>
+    <div class="info-card"><div class="info-header">💡 實用資訊</div><div class="info-body"><div class="info-row"><span class="info-label">匯率參考</span><span class="info-value">¥100≈NT$21</span></div><div class="info-row"><span class="info-label">電壓</span><span class="info-value">100V 雙扁插</span></div><div class="info-row"><span class="info-label">時差</span><span class="info-value">比台灣快1小時</span></div><div class="info-row"><span class="info-label">免稅條件</span><span class="info-value">同店滿¥5,000</span></div></div></div>
+    <div class="info-card"><div class="info-header">🚗 雪地駕駛注意</div><div class="info-body"><div class="info-row"><span class="info-label">速度</span><span class="info-value">比平常慢20-30%</span></div><div class="info-row"><span class="info-label">煞車</span><span class="info-value">提早輕踩避免急煞</span></div><div class="info-row"><span class="info-label">車距</span><span class="info-value">保持3倍以上距離</span></div><div class="info-row"><span class="info-label">停車</span><span class="info-value">不放手煞車(會結冰)</span></div><div class="info-row"><span class="info-label">加油</span><span class="info-value">選「レギュラー」</span></div></div></div>
+    <div class="info-card"><div class="info-header">📝 小提醒</div><div class="info-body" style="padding:16px"><div style="font-size:15px;line-height:2;color:#546e7a">🔸 便利商店24小時可買熱食、提款<br>🔸 泡溫泉前先淋浴，毛巾不入池<br>🔸 餐廳用餐無需給小費<br>🔸 DCM可買鞋釘（防滑用）</div></div></div>
   `;
 }
 
-// ========================================
 // Google Sheets API
-// ========================================
 function saveApiUrl() {
   const url = document.getElementById('api-url').value.trim();
-  if (!url) {
-    showSetupStatus('請輸入網址', 'error');
-    return;
-  }
+  if (!url) { showSetupStatus('請輸入網址', 'error'); return; }
   API_URL = url;
   localStorage.setItem(STORAGE_KEY, url);
   showSetupStatus('已儲存！正在測試連線...', 'success');
@@ -843,174 +757,82 @@ function saveApiUrl() {
 }
 
 async function testConnection() {
-  if (!API_URL) {
-    showSetupStatus('請先輸入 API 網址', 'error');
-    return;
-  }
-  
+  if (!API_URL) { showSetupStatus('請先輸入 API 網址', 'error'); return; }
   updateConnStatus('loading');
-  
   try {
     const response = await fetch(`${API_URL}?action=get`);
     const data = await response.json();
-    
     if (data.success) {
       isOnline = true;
       updateConnStatus('online');
       showSetupStatus(`連線成功！找到 ${data.expenses.length} 筆資料`, 'success');
       document.getElementById('setup-section').innerHTML = '';
-      
-      if (data.expenses.length === 0) {
-        initDefaultData();
-      } else {
-        expenses = data.expenses;
-        renderExpenses();
-        updateBudget();
-      }
-    } else {
-      throw new Error(data.error || '連線失敗');
-    }
-  } catch (error) {
-    isOnline = false;
-    updateConnStatus('error');
-    showSetupStatus('連線失敗：' + error.message, 'error');
-  }
+      if (data.expenses.length === 0) { initDefaultData(); } else { expenses = data.expenses; renderExpenses(); updateBudget(); }
+    } else { throw new Error(data.error || '連線失敗'); }
+  } catch (error) { isOnline = false; updateConnStatus('error'); showSetupStatus('連線失敗：' + error.message, 'error'); }
 }
 
 async function initDefaultData() {
   try {
     const response = await fetch(`${API_URL}?action=init`);
     const data = await response.json();
-    if (data.success) {
-      showToast('已初始化預設資料', 'success');
-      syncData();
-    }
-  } catch (error) {
-    console.error('Init error:', error);
-  }
+    if (data.success) { showToast('已初始化預設資料', 'success'); syncData(); }
+  } catch (error) { console.error('Init error:', error); }
 }
 
 async function syncData() {
   if (!API_URL) return;
-  
   const btn = document.getElementById('header-sync');
   btn.classList.add('loading');
-  
   try {
     const response = await fetch(`${API_URL}?action=get`);
     const data = await response.json();
-    
-    if (data.success) {
-      expenses = data.expenses;
-      isOnline = true;
-      updateConnStatus('online');
-      renderExpenses();
-      updateBudget();
-      showToast('同步成功！', 'success');
-    } else {
-      throw new Error(data.error);
-    }
-  } catch (error) {
-    isOnline = false;
-    updateConnStatus('error');
-    showToast('同步失敗', 'error');
-  } finally {
-    btn.classList.remove('loading');
-  }
+    if (data.success) { expenses = data.expenses; isOnline = true; updateConnStatus('online'); renderExpenses(); updateBudget(); showToast('同步成功！', 'success'); } else { throw new Error(data.error); }
+  } catch (error) { isOnline = false; updateConnStatus('error'); showToast('同步失敗', 'error'); }
+  finally { btn.classList.remove('loading'); }
 }
 
 function updateConnStatus(status) {
   const el = document.getElementById('conn-status');
-  if (status === 'online') {
-    el.className = 'expense-status online';
-    el.innerHTML = '<span>🟢</span> 已連線 Google Sheets';
-  } else if (status === 'error') {
-    el.className = 'expense-status error';
-    el.innerHTML = '<span>🔴</span> 連線失敗';
-  } else {
-    el.className = 'expense-status offline';
-    el.innerHTML = '<span>⏳</span> 連線中...';
-  }
+  if (status === 'online') { el.className = 'expense-status online'; el.innerHTML = '<span>🟢</span> 已連線 Google Sheets'; }
+  else if (status === 'error') { el.className = 'expense-status error'; el.innerHTML = '<span>🔴</span> 連線失敗'; }
+  else { el.className = 'expense-status offline'; el.innerHTML = '<span>⏳</span> 連線中...'; }
 }
 
 function showSetupStatus(msg, type) {
   const el = document.getElementById('setup-status');
-  if (el) {
-    el.style.display = 'block';
-    el.className = 'setup-status ' + type;
-    el.textContent = msg;
-  }
+  if (el) { el.style.display = 'block'; el.className = 'setup-status ' + type; el.textContent = msg; }
 }
 
-// ========================================
 // Modal & Toast
-// ========================================
 function openModal() {
-  if (!isOnline) {
-    showToast('請先設定 Google Sheets', 'error');
-    return;
-  }
+  if (!isOnline) { showToast('請先設定 Google Sheets', 'error'); return; }
   document.getElementById('modal').classList.add('active');
   document.getElementById('f-date').value = new Date().toISOString().split('T')[0];
 }
 
-function closeModal() {
-  document.getElementById('modal').classList.remove('active');
-}
+function closeModal() { document.getElementById('modal').classList.remove('active'); }
 
 async function addExpense(e) {
   e.preventDefault();
-  
   const btn = document.getElementById('submit-btn');
-  btn.disabled = true;
-  btn.textContent = '新增中...';
-  
-  const params = new URLSearchParams({
-    action: 'add',
-    id: Date.now().toString(),
-    date: document.getElementById('f-date').value,
-    category: document.getElementById('f-cat').value,
-    description: document.getElementById('f-desc').value,
-    currency: document.getElementById('f-cur').value,
-    amount: document.getElementById('f-amt').value
-  });
-  
+  btn.disabled = true; btn.textContent = '新增中...';
+  const params = new URLSearchParams({ action: 'add', id: Date.now().toString(), date: document.getElementById('f-date').value, category: document.getElementById('f-cat').value, description: document.getElementById('f-desc').value, currency: document.getElementById('f-cur').value, amount: document.getElementById('f-amt').value });
   try {
     const response = await fetch(`${API_URL}?${params}`);
     const data = await response.json();
-    
-    if (data.success) {
-      showToast('新增成功！', 'success');
-      closeModal();
-      document.querySelector('form').reset();
-      syncData();
-    } else {
-      throw new Error(data.error);
-    }
-  } catch (error) {
-    showToast('新增失敗', 'error');
-  } finally {
-    btn.disabled = false;
-    btn.textContent = '新增消費';
-  }
+    if (data.success) { showToast('新增成功！', 'success'); closeModal(); document.querySelector('form').reset(); syncData(); } else { throw new Error(data.error); }
+  } catch (error) { showToast('新增失敗', 'error'); }
+  finally { btn.disabled = false; btn.textContent = '新增消費'; }
 }
 
 async function deleteExpense(id) {
   if (!confirm('確定要刪除這筆消費嗎？')) return;
-  
   try {
     const response = await fetch(`${API_URL}?action=delete&id=${id}`);
     const data = await response.json();
-    
-    if (data.success) {
-      showToast('已刪除', 'success');
-      syncData();
-    } else {
-      throw new Error(data.error);
-    }
-  } catch (error) {
-    showToast('刪除失敗', 'error');
-  }
+    if (data.success) { showToast('已刪除', 'success'); syncData(); } else { throw new Error(data.error); }
+  } catch (error) { showToast('刪除失敗', 'error'); }
 }
 
 function showToast(msg, type = '') {
@@ -1020,12 +842,7 @@ function showToast(msg, type = '') {
   setTimeout(() => toast.className = 'toast', 2500);
 }
 
-// 點擊 Modal 外部關閉
-document.getElementById('modal').addEventListener('click', (e) => {
-  if (e.target.id === 'modal') closeModal();
-});
-
-// 啟動
+document.getElementById('modal').addEventListener('click', (e) => { if (e.target.id === 'modal') closeModal(); });
 document.addEventListener('DOMContentLoaded', init);
 </script>
 </body>
