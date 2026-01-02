@@ -423,7 +423,7 @@ function renderWeather(day,data,loc){
         <div class="weather-item"><div class="weather-label">🌇 日落</div><div class="weather-value">${sunset}</div></div>
       </div>
       <div class="road-status">
-        <div class="road-title"><span>🛣️ 相關道路</span><a href="https://northern-road.jp/navi/index.htm" target="_blank" class="road-link">北の道ナビ →</a></div>
+        <div class="road-title"><span>🛣️ 相關道路</span><a href="https://northern-road.ceri.go.jp/navi/" target="_blank" class="road-link">北の道ナビ →</a></div>
         <div>${loc.roads.map(r=>`<span class="road-item"><span class="road-dot unknown"></span>${r}</span>`).join('')}</div>
       </div>
     </div>`;
