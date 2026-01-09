@@ -408,7 +408,6 @@ function renderWeather(day,data,loc){
   else if(current.temperature_2m<=-10){alertLevel='info';alertMsg=`🥶 極寒 ${current.temperature_2m}°C，注意路面結冰`;}
   else{alertLevel='safe';alertMsg=`✅ 路況正常，保持安全車距`;}
   
-  const sunrise=daily.sunrise[0].split('T')[1];
   const sunset=daily.sunset[0].split('T')[1];
   const updateTime=lastWeatherUpdate.toLocaleTimeString('zh-TW',{hour:'2-digit',minute:'2-digit'});
   
@@ -425,7 +424,7 @@ function renderWeather(day,data,loc){
         <div class="weather-item"><div class="weather-label">🏔️ 積雪</div><div class="weather-value ${snowDepth>=50?'warn':''}">${snowDepth}cm</div></div>
         <div class="weather-item"><div class="weather-label">❄️ 6hr雪</div><div class="weather-value ${snowfall6h>=3?'warn':''}">${snowfall6h.toFixed(1)}cm</div></div>
         <div class="weather-item"><div class="weather-label">💨 風速</div><div class="weather-value">${current.wind_speed_10m}km/h</div></div>
-        <div class="weather-item"><div class="weather-label">🌅 日出</div><div class="weather-value">${sunrise}</div></div>
+        <div class="weather-item"><div class="weather-label">🌇 日落</div><div class="weather-value">${sunset}</div></div>
       </div>
       <div class="road-status">
         <div class="road-title"><span>🛣️ 相關道路</span><a href="https://northern-road.ceri.go.jp/navi/" target="_blank" class="road-link">北の道ナビ →</a></div>
