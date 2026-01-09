@@ -349,7 +349,7 @@ async function fetchWeather(day){
   if(!loc)return;
   try{
     // 使用 Open-Meteo API (免費、無需 API Key)
-    const url=`https://api.open-meteo.com/v1/forecast?latitude=${loc.lat}&longitude=${loc.lon}&current=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,weather_code,wind_speed_10m,wind_gusts_10m&hourly=precipitation_probability,snowfall&daily=sunrise,sunset,weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum,snowfall_sum&timezone=Asia/Tokyo&forecast_days=3`;
+    const url=`https://api.open-meteo.com/v1/forecast?latitude=${loc.lat}&longitude=${loc.lon}&current=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,weather_code,wind_speed_10m,wind_gusts_10m,snow_depth&hourly=precipitation_probability,snowfall&daily=sunrise,sunset,weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum,snowfall_sum&timezone=Asia/Tokyo&forecast_days=3`;
     const res=await fetch(url);
     const data=await res.json();
     weatherData=data;
@@ -397,6 +397,9 @@ function renderWeather(day,data,loc){
   // 計算未來6小時降雪機率和降雪量
   const snowfall6h=hourly.snowfall.slice(0,6).reduce((a,b)=>a+(b||0),0);
   
+  // 積雪深度 (公尺轉公分)
+  const snowDepth=current.snow_depth?Math.round(current.snow_depth*100):0;
+  
   // 判斷警示等級
   let alertLevel='safe',alertMsg='';
   if(snowfall6h>=10){alertLevel='danger';alertMsg=`⚠️ 大雪警報！6hr內降雪 ${snowfall6h.toFixed(1)}cm，請特別注意`;}
@@ -419,10 +422,10 @@ function renderWeather(day,data,loc){
       <div class="weather-grid">
         <div class="weather-item"><div class="weather-label">🌡️ 氣溫</div><div class="weather-value cold">${current.temperature_2m}°C</div></div>
         <div class="weather-item"><div class="weather-label">🥶 體感</div><div class="weather-value cold">${current.apparent_temperature}°C</div></div>
+        <div class="weather-item"><div class="weather-label">🏔️ 積雪</div><div class="weather-value ${snowDepth>=50?'warn':''}">${snowDepth}cm</div></div>
         <div class="weather-item"><div class="weather-label">❄️ 6hr雪</div><div class="weather-value ${snowfall6h>=3?'warn':''}">${snowfall6h.toFixed(1)}cm</div></div>
         <div class="weather-item"><div class="weather-label">💨 風速</div><div class="weather-value">${current.wind_speed_10m}km/h</div></div>
         <div class="weather-item"><div class="weather-label">🌅 日出</div><div class="weather-value">${sunrise}</div></div>
-        <div class="weather-item"><div class="weather-label">🌇 日落</div><div class="weather-value">${sunset}</div></div>
       </div>
       <div class="road-status">
         <div class="road-title"><span>🛣️ 相關道路</span><a href="https://northern-road.ceri.go.jp/navi/" target="_blank" class="road-link">北の道ナビ →</a></div>
